@@ -146,125 +146,72 @@ namespace DarkDemo
             }
         }
 
-        public void ActualizarFechaProceso(System.Windows.Forms.ComboBox comboBox)
+        public void MostrarRegistros(DataGridView tablaReportes)
         {
-        //   try
-        //   {
-        //       DateTime dateTime = DateTime.Now;
-        //       string fechaFormateada = dateTime.ToString("yyyy-MM-dd HH:mm:ss"); // Formato para DATETIME en MySQL
-        //
-        //
-        //       CConexion cConexion = new CConexion();
-        //       String query = "UPDATE proceso SET fecha_fin = @fecha_fin " +
-        //           " WHERE id = @id;";
-        //       MySqlCommand mySqlCommand = new MySqlCommand(query, cConexion.establecerConexion());
-        //
-        //       mySqlCommand.Parameters.AddWithValue("@fecha_fin", fechaFormateada);
-        //       mySqlCommand.Parameters.AddWithValue("@id", comboBox.Text);
-        //
-        //
-        //       int filasAfectadas = mySqlCommand.ExecuteNonQuery();
-        //
-        //       cConexion.cerrarConexion();
-        //
-        //
-        //   }
-        //   catch (Exception ex)
-        //   {
-        //       MessageBox.Show("Error: " + ex.Message);
-        //    }
-        }
-        public void MostrarUsuarios(DataGridView tablaReportes = null)
-        {
-        //    tablareportes2 = tablaReportes;
-        //    try
-        //    {
-        //        CConexion objetoConeccion = new CConexion();
-        //        String query = "WITH MaxLecturas AS (" +
-        //                        "SELECT " +
-        //                        "   proceso_id, " +
-        //                        "   oxigeno, " +
-        //                        "   ph, " +
-        //                        "   fecha, " +
-        //                        "   ROW_NUMBER() OVER (PARTITION BY proceso_id ORDER BY oxigeno DESC, ph DESC) AS rn " +
-        //                        "FROM " +
-        //                        "   lecturas " +
-        //                        ") " +
-        //                        "SELECT " +
-        //                        "   p.id AS proceso, " +
-        //                        "   IFNULL(CAST(p.fecha_inicio AS CHAR), '0000-00-00 00:00:00') AS fecha_inicio, " +
-        //                        "   IFNULL(CAST(p.fecha_fin AS CHAR), '0000-00-00 00:00:00') AS fecha_fin, " +
-        //                        "   ml.oxigeno AS oxigeno_maximo, " +
-        //                        "   ml.ph AS pH_maximo, " +
-        //                        "   IFNULL(CAST(ml.fecha AS CHAR), '0000-00-00 00:00:00') AS lectura_fecha " +
-        //                        "FROM " +
-        //                        "   Proceso p " +
-        //                        "JOIN " +
-        //                        "   MaxLecturas ml ON p.id = ml.proceso_id " +
-        //                        "WHERE " +
-        //                        "  p.estado = 1 AND ml.rn = 1 " +
-        //                        "ORDER BY " +
-        //                        "   p.id;";
-        //
-        //        tablaReportes.DataSource = null;
-        //        MySqlDataAdapter adapter = new MySqlDataAdapter(query, objetoConeccion.establecerConexion());
-        //        DataTable dataTable = new DataTable();
-        //        adapter.Fill(dataTable);
-        //
-        //        tablaReportes.DataSource = dataTable;
-        //
-        //        // Establecer el estilo del encabezado
-        //        tablaReportes.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(231, 154, 37); // RGB para naranja
-        //        tablaReportes.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; // Texto blanco para los encabezados
-        //        tablaReportes.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Arial", 10, FontStyle.Bold); // Fuente de los encabezados
-        //        tablaReportes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Centrar el texto
-        //        tablaReportes.EnableHeadersVisualStyles = false; // Deshabilitar los estilos visuales predeterminados de los encabezados
-        //
-        //        // Agregar columna de botones
-        //        if (tablaReportes.Columns["Eliminar"] == null)
-        //        {
-        //            DataGridViewButtonColumn btnColumnEliminar = new DataGridViewButtonColumn
-        //            {
-        //                Name = "Eliminar",
-        //                HeaderText = "Eliminar",
-        //                Text = "Eliminar",
-        //                UseColumnTextForButtonValue = true,
-        //                DefaultCellStyle = new DataGridViewCellStyle
-        //                {
-        //                    BackColor = Color.White,
-        //
-        //                }
-        //            };
-        //
-        //            DataGridViewButtonColumn btnColumnPDF = new DataGridViewButtonColumn
-        //            {
-        //                Name = "PDF",
-        //                HeaderText = "PDF",
-        //                Text = "PDF",
-        //                UseColumnTextForButtonValue = true,
-        //                DefaultCellStyle = new DataGridViewCellStyle
-        //                {
-        //                    BackColor = Color.White,
-        //                    ForeColor = Color.White
-        //                }
-        //            };
-        //
-        //            tablaReportes.Columns.Add(btnColumnEliminar);
-        //            tablaReportes.Columns.Add(btnColumnPDF);
-        //        }
-        //
-        //        // Configurar las columnas para que llenen el espacio disponible
-        //        tablaReportes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        //
-        //        // Configurar el evento CellContentClick para manejar clics en los botones
-        //        tablaReportes.CellContentClick += TablaReportes_CellContentClick;
-        //
-        //        objetoConeccion.cerrarConexion();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show("No se mostraron datos Error:" + ex.ToString());
-        //    }
+            try
+            {
+                CConexion objetoConeccion = new CConexion();
+                String query = "SELECT    fecha,   ROUND(AVG(oxigeno), 2) AS promedio_oxigeno,    ROUND(AVG(temperatura), 2) AS promedio_temperatura FROM    lecturas GROUP BY     fecha ORDER BY     fecha DESC";
+        
+                tablaReportes.DataSource = null;
+                MySqlDataAdapter adapter = new MySqlDataAdapter(query, objetoConeccion.establecerConexion());
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+        
+                tablaReportes.DataSource = dataTable;
+        
+                // Establecer el estilo del encabezado
+                tablaReportes.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(231, 154, 37); // RGB para naranja
+                tablaReportes.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; // Texto blanco para los encabezados
+                tablaReportes.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Arial", 10, FontStyle.Bold); // Fuente de los encabezados
+                tablaReportes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Centrar el texto
+                tablaReportes.EnableHeadersVisualStyles = false; // Deshabilitar los estilos visuales predeterminados de los encabezados
+        
+                // Agregar columna de botones
+                if (tablaReportes.Columns["Eliminar"] == null)
+                {
+                    DataGridViewButtonColumn btnColumnEliminar = new DataGridViewButtonColumn
+                    {
+                        Name = "PDFToMail",
+                        HeaderText = "Email",
+                        Text = "Enviar a Email",
+                        UseColumnTextForButtonValue = true,
+                        DefaultCellStyle = new DataGridViewCellStyle
+                        {
+                            BackColor = Color.White,
+        
+                        }
+                    };
+        
+                    DataGridViewButtonColumn btnColumnPDF = new DataGridViewButtonColumn
+                    {
+                        Name = "PDF",
+                        HeaderText = "PDF",
+                        Text = "PDF",
+                        UseColumnTextForButtonValue = true,
+                        DefaultCellStyle = new DataGridViewCellStyle
+                        {
+                            BackColor = Color.White,
+                            ForeColor = Color.White
+                        }
+                    };
+        
+                    tablaReportes.Columns.Add(btnColumnEliminar);
+                    tablaReportes.Columns.Add(btnColumnPDF);
+                }
+        
+                // Configurar las columnas para que llenen el espacio disponible
+                tablaReportes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        
+                // Configurar el evento CellContentClick para manejar clics en los botones
+                tablaReportes.CellContentClick += TablaReportes_CellContentClick;
+        
+                objetoConeccion.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se mostraron datos Error:" + ex.ToString());
+            }
         }
         public void EliminarProceso(string id)
         {
@@ -317,184 +264,158 @@ namespace DarkDemo
 
         private void TablaReportes_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-         //   if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-         //   {
-         //       DataGridView dgv = sender as DataGridView;
-         //
-         //       // Obtener el valor de la celda de la columna "proceso"
-         //       var procesoValue = dgv.Rows[e.RowIndex].Cells["proceso"].Value?.ToString();
-         //
-         //       if (dgv.Columns[e.ColumnIndex].Name == "Eliminar")
-         //       {
-         //           EliminarProceso(procesoValue);
-         //           //MessageBox.Show($"Eliminar clicked for proceso: {procesoValue}");
-         //       }
-         //       else if (dgv.Columns[e.ColumnIndex].Name == "PDF")
-         //       {
-         //           SeleccionarProceso(procesoValue);
-         //           // MessageBox.Show($"PDF clicked for proceso: {procesoValue}");
-         //       }
-         //   }
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridView dgv = sender as DataGridView;
+
+                // Obtener el valor de la celda como cadena
+                var fechaValue = dgv.Rows[e.RowIndex].Cells["fecha"].Value?.ToString();
+
+                // Convertir la cadena a un objeto DateTime
+                DateTime fecha;
+                if (DateTime.TryParse(fechaValue, out fecha))
+                {
+                    // Formatear la fecha en el formato "yyyy/MM/dd"
+                    var formattedDate = fecha.ToString("yyyy/MM/dd");
+
+                     if (dgv.Columns[e.ColumnIndex].Name == "PDFToMail")
+                     {
+                        // EliminarProceso(procesoValue);
+                        MessageBox.Show($"Eliminar clicked for proceso: {formattedDate}");
+                     }
+                     else if (dgv.Columns[e.ColumnIndex].Name == "PDF")
+                     {
+                         SeleccionarProceso(formattedDate);
+                         // MessageBox.Show($"PDF clicked for proceso: {procesoValue}");
+                     }
+                }
+                else
+                {
+                    // Manejar el caso en que la conversión falle (opcional)
+                    MessageBox.Show("La fecha no es válida.");
+                }
+            }
+        }
+        public void SeleccionarProceso(string fecha)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(fecha))
+                {
+                    MessageBox.Show("La fecha no puede estar vacía");
+                    return;
+                }
+
+                CConexion objetoConexion = new CConexion();
+                String query = "SELECT fecha, oxigeno , temperatura " +
+                                "FROM lecturas " +
+                                "WHERE fecha = @fecha ";
+
+                using (MySqlConnection connection = objetoConexion.establecerConexion())
+                {
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
+                    adapter.SelectCommand.Parameters.AddWithValue("@fecha", fecha);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
+
+                    if (dataTable.Rows.Count == 0)
+                    {
+                        MessageBox.Show("No se encontraron datos para la fecha especificada.");
+                        return;
+                    }
+                    string fechaFormateada = fecha.Replace("/", "-");
+                    string pdfPath = Path.Combine(
+                   Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                   @"Downloads\Sena\PDF\"+ fechaFormateada + ".pdf"
+               );
+                    GenerarPDF(dataTable, pdfPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se mostraron datos. Error: " + ex.ToString());
+            }
         }
 
-        public void SeleccionarProceso(string id)
+        public void GenerarPDF(DataTable dataTable, string filePath)
         {
-         //   try
-         //   {
-         //       if (string.IsNullOrEmpty(id))
-         //       {
-         //           MessageBox.Show("ID no puede estar vacío");
-         //           return;
-         //       }
-         //
-         //       CConexion objetoConexion = new CConexion();
-         //       String query = "SELECT " +
-         //        "   p.id AS proceso, " +
-         //        "   IFNULL(CAST(p.fecha_inicio AS CHAR), '0000-00-00 00:00:00') AS fecha_inicio, " +
-         //        "   IFNULL(CAST(p.fecha_fin AS CHAR), '0000-00-00 00:00:00') AS fecha_fin, " +
-         //        "   l.oxigeno AS oxigeno_maximo, " +
-         //        "   l.ph AS pH_maximo, " +
-         //        "   IFNULL(CAST(l.fecha AS CHAR), '0000-00-00 00:00:00') AS lectura_fecha " +
-         //        "FROM " +
-         //        "   Proceso p " +
-         //        "JOIN " +
-         //        "   lecturas l ON p.id = l.proceso_id " +
-         //        "WHERE " +
-         //        "   p.estado = 1 AND p.id = @id " +
-         //        "ORDER BY " +
-         //        "   p.id;";
-         //
-         //       using (MySqlConnection connection = objetoConexion.establecerConexion())
-         //       {
-         //           MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-         //           adapter.SelectCommand.Parameters.AddWithValue("@id", id);
-         //           DataTable dataTable = new DataTable();
-         //           adapter.Fill(dataTable);
-         //           GenerarPDF(dataTable);
-         //       }
-         //   }
-         //   catch (Exception ex)
-         //   {
-         //       MessageBox.Show("No se mostraron datos. Error: " + ex.ToString());
-         //   }
+            if (dataTable.Rows.Count > 0)
+            {
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    Document pdfDoc = new Document(PageSize.A4);
+
+                    // Configurar márgenes (izquierda, derecha, arriba, abajo)
+                    pdfDoc.SetMargins(36, 36, 72, 72); // Ajusta estos valores según tus necesidades
+
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+
+                    // Agregar el encabezado y pie de página
+                    writer.PageEvent = new PDFHeaderFooter();
+
+                    pdfDoc.Open();
+                    BaseColor customColor = new BaseColor(16, 135, 52);
+                    Font fontTitle = FontFactory.GetFont(FontFactory.HELVETICA, 16, Font.BOLD, customColor);
+
+                    string fechaFormateada = DateTime.Parse(dataTable.Rows[0]["fecha"].ToString()).ToString("yyyy/MM/dd");
+
+                    // Agregar título
+                    Paragraph title = new Paragraph($"Reporte de Datos - {fechaFormateada}", fontTitle)
+                    {
+                        Alignment = Element.ALIGN_CENTER,
+                    };
+                    pdfDoc.Add(title);
+                    pdfDoc.Add(new Paragraph(" ")); // Agregar una línea vacía
+
+                    // Agregar promedios de oxígeno y temperatura
+                    Font font = FontFactory.GetFont(FontFactory.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+                    Paragraph paragraph1 = new Paragraph($"oxígeno: {dataTable.Rows[0]["oxigeno"]}", font);
+                    Paragraph paragraph2 = new Paragraph($"temperatura: {dataTable.Rows[0]["temperatura"]}", font);
+                    paragraph1.Alignment = Element.ALIGN_CENTER;
+                    paragraph2.Alignment = Element.ALIGN_CENTER;
+                    pdfDoc.Add(paragraph1);
+                    pdfDoc.Add(paragraph2);
+
+                    pdfDoc.Add(new Paragraph(" ")); // Agregar una línea vacía
+
+                    // Crear tabla con los datos
+                    PdfPTable pdfTable = new PdfPTable(dataTable.Columns.Count);
+
+                    // Agregar encabezados
+                    foreach (DataColumn column in dataTable.Columns)
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(column.ColumnName))
+                        {
+                            BackgroundColor = new BaseColor(255, 165, 0), // Color naranja
+                            HorizontalAlignment = Element.ALIGN_CENTER,
+                            VerticalAlignment = Element.ALIGN_MIDDLE
+                        };
+                        pdfTable.AddCell(cell);
+                    }
+
+                    // Agregar filas de datos
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        foreach (var cell in row.ItemArray)
+                        {
+                            pdfTable.AddCell(cell.ToString());
+                        }
+                    }
+                    pdfDoc.Add(pdfTable);
+
+                    // Si necesitas agregar gráficos u otros elementos, aquí puedes hacerlo
+
+                    pdfDoc.Close();
+                }
+
+                MessageBox.Show("PDF generado correctamente en: " + filePath);
+            }
+            else
+            {
+                MessageBox.Show("No hay datos para generar el PDF.");
+            }
         }
 
-        public void GenerarPDF(DataTable dataTable)
-        {
-        //   if (dataTable.Rows.Count > 0)
-        //   {
-        //       string pdfPath = Path.Combine(
-        //           Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-        //           @"Downloads\Sena\PDF\filePDF.pdf"
-        //       );
-        //
-        //       using (FileStream stream = new FileStream(pdfPath, FileMode.Create))
-        //       {
-        //           Document pdfDoc = new Document(PageSize.A4);
-        //           PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-        //
-        //           // Agregar el encabezado y pie de página
-        //           writer.PageEvent = new PDFHeaderFooter();
-        //
-        //           pdfDoc.Open();
-        //           BaseColor customColor = new BaseColor(16, 135, 52);
-        //           Font fontTitle = FontFactory.GetFont(FontFactory.HELVETICA, 16, Font.BOLD, customColor);
-        //
-        //           // Agregar título
-        //           Paragraph title = new Paragraph($"Proceso: {dataTable.Rows[0][0]}", fontTitle)
-        //           {
-        //               Alignment = Element.ALIGN_CENTER,
-        //           };
-        //           pdfDoc.Add(title);
-        //
-        //           pdfDoc.Add(new Paragraph(" ")); // Agregar una línea vacía
-        //
-        //           // Agregar fechas de inicio y fin
-        //           Font font = FontFactory.GetFont(FontFactory.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
-        //           Paragraph paragraph1 = new Paragraph($"Fecha de inicio: {dataTable.Rows[0][1]}", font);
-        //           Paragraph paragraph2 = new Paragraph($"Fecha fin: {dataTable.Rows[0][2]}", font);
-        //           paragraph1.Alignment = Element.ALIGN_CENTER;
-        //           paragraph2.Alignment = Element.ALIGN_CENTER;
-        //           pdfDoc.Add(paragraph1);
-        //           pdfDoc.Add(paragraph2);
-        //
-        //           pdfDoc.Add(new Paragraph(" ")); // Agregar una línea vacía
-        //
-        //           // Crear tabla con las columnas restantes
-        //           PdfPTable pdfTable = new PdfPTable(dataTable.Columns.Count - 3);
-        //
-        //           // Agregar encabezados para las columnas restantes
-        //           for (int i = 3; i < dataTable.Columns.Count; i++)
-        //           {
-        //               PdfPCell cell = new PdfPCell(new Phrase(dataTable.Columns[i].ColumnName))
-        //               {
-        //                   BackgroundColor = new BaseColor(255, 165, 0), // Color naranja
-        //                   HorizontalAlignment = Element.ALIGN_CENTER,
-        //                   VerticalAlignment = Element.ALIGN_MIDDLE
-        //               };
-        //               pdfTable.AddCell(cell);
-        //           }
-        //
-        //           // Agregar filas de datos para las columnas restantes
-        //           foreach (DataRow row in dataTable.Rows)
-        //           {
-        //               for (int i = 3; i < dataTable.Columns.Count; i++)
-        //               {
-        //                   pdfTable.AddCell(row[i].ToString());
-        //               }
-        //           }
-        //           pdfDoc.Add(pdfTable);
-        //
-        //           // Crear gráfico de spline con OxyPlot
-        //           var plotModel = new PlotModel { Title = "Gráfica" };
-        //
-        //           var series1 = new LineSeries
-        //           {
-        //               Title = dataTable.Columns[3].ColumnName,
-        //               Color = OxyColor.FromRgb(0, 255, 0) // Verde
-        //           };
-        //
-        //           var series2 = new LineSeries
-        //           {
-        //               Title = dataTable.Columns[4].ColumnName,
-        //               Color = OxyColor.FromRgb(255, 165, 0) // Naranja
-        //           };
-        //
-        //           for (int i = 0; i < dataTable.Rows.Count; i++)
-        //           {
-        //               double x = i + 1; // Ejemplo de valor X, puedes ajustarlo según tus necesidades
-        //               double y1 = Convert.ToDouble(dataTable.Rows[i][3]);
-        //               double y2 = Convert.ToDouble(dataTable.Rows[i][4]);
-        //
-        //            //   series1.Points.Add(new DataPoint(x, y1));
-        //             //  series2.Points.Add(new DataPoint(x, y2));
-        //           }
-        //
-        //           plotModel.Series.Add(series1);
-        //           plotModel.Series.Add(series2);
-        //
-        //           var pngExporter = new OxyPlot.WindowsForms.PngExporter { Width = 600, Height = 400 };
-        //           using (var ms = new MemoryStream())
-        //           {
-        //               pngExporter.Export(plotModel, ms);
-        //               ms.Seek(0, SeekOrigin.Begin);
-        //
-        //               iTextSharp.text.Image chartImage = iTextSharp.text.Image.GetInstance(ms.ToArray());
-        //               chartImage.ScaleToFit(500f, 300f);
-        //               chartImage.Alignment = Element.ALIGN_CENTER;
-        //               pdfDoc.Add(chartImage);
-        //           }
-        //
-        //           pdfDoc.Close();
-        //       }
-        //
-        //       MessageBox.Show("PDF generado correctamente en: " + pdfPath);
-        //   }
-        //   else
-        //   {
-        //       MessageBox.Show("No hay datos para generar el PDF.");
-        //   }
-        }
 
         // Clase para el encabezado y pie de página personalizados
         public class PDFHeaderFooter : PdfPageEventHelper
@@ -508,7 +429,7 @@ namespace DarkDemo
                 // Agregar imagen al encabezado
                 string headerImagePath = @"C:\Users\brayan\Downloads\Sena\Imagenes\logo.png";
                 Image headerImage = Image.GetInstance(headerImagePath);
-                headerImage.ScaleAbsolute(60, 60);
+                headerImage.ScaleAbsolute(80, 60);
                 PdfPCell imageCell = new PdfPCell(headerImage)
                 {
                     Border = Rectangle.NO_BORDER,
@@ -518,7 +439,7 @@ namespace DarkDemo
                 headerTable.AddCell(imageCell);
 
                 // Agregar texto al encabezado
-                PdfPCell textCell = new PdfPCell(new Phrase("Panelas IBS SAS"))
+                PdfPCell textCell = new PdfPCell(new Phrase("Produccion Agropecuaria Ecologica"))
                 {
                     Border = Rectangle.NO_BORDER,
                     HorizontalAlignment = Element.ALIGN_RIGHT,
@@ -527,7 +448,7 @@ namespace DarkDemo
                 headerTable.AddCell(textCell);
 
                 // Ajustar la posición del encabezado
-                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, writer.PageSize.GetTop(document.TopMargin) + 30, writer.DirectContent);
+                headerTable.WriteSelectedRows(0, -1, document.LeftMargin, writer.PageSize.GetTop(document.TopMargin) + 60, writer.DirectContent);
 
                 // Crear el pie de página con una altura de 80 píxeles
                 PdfPTable footerTable = new PdfPTable(1);
@@ -536,7 +457,7 @@ namespace DarkDemo
                 // Agregar imagen al pie de página
                 string footerImagePath = @"C:\Users\brayan\Downloads\Sena\Imagenes\footer_image.png";
                 Image footerImage = Image.GetInstance(footerImagePath);
-                footerImage.ScaleAbsolute(240, 60);
+                footerImage.ScaleAbsolute(159, 40);
                 PdfPCell footerImageCell = new PdfPCell(footerImage)
                 {
                     Border = Rectangle.NO_BORDER,
@@ -546,7 +467,7 @@ namespace DarkDemo
                 footerTable.AddCell(footerImageCell);
 
                 // Ajustar la posición del pie de página
-                footerTable.WriteSelectedRows(0, -1, document.LeftMargin, writer.PageSize.GetBottom(document.BottomMargin) + 25, writer.DirectContent);
+                footerTable.WriteSelectedRows(0, -1, document.LeftMargin, writer.PageSize.GetBottom(document.BottomMargin) + 0, writer.DirectContent);
             }
         }
 

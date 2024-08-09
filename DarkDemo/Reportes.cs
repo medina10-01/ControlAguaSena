@@ -16,7 +16,7 @@ namespace DarkDemo
         {
             InitializeComponent();
             ControlDatos controlDatos = new ControlDatos();
-            controlDatos.MostrarUsuarios(tablaReportes);
+            controlDatos.MostrarRegistros(tablaReportes);
         }
 
         private void Reportes_Load(object sender, EventArgs e)
@@ -30,6 +30,11 @@ namespace DarkDemo
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
