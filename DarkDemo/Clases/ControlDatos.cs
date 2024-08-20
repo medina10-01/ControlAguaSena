@@ -269,17 +269,18 @@ namespace DarkDemo
                      {
                         DataTable dataTable = SeleccionarProceso(formattedDate);
                         if (dataTable != null)
+                        
                         {
-                            sendMail sendMail = new sendMail();
                             string fechaFormateada = fecha.ToString("yyyy-MM-dd");
-                            string destino = "mstiven748@gmail.com";
-                            string asunto = "Reporte de lagos en la fecha: "+fechaFormateada;
-                            // Este ejemplo asume que ya tienes un control WebBrowser en tu formulario.
-
                             string pdfPath = Path.Combine(
                                 Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                                 @"Downloads\Sena\PDF\" + fechaFormateada + ".pdf"
                             );
+                            GenerarPDF(dataTable, pdfPath);
+                            sendMail sendMail = new sendMail();
+                            string destino = "mstiven748@gmail.com";
+                            string asunto = "Reporte de lagos en la fecha: "+fechaFormateada;
+                            // Este ejemplo asume que ya tienes un control WebBrowser en tu formulario
 
                             byte[] bites = File.ReadAllBytes(pdfPath);
 

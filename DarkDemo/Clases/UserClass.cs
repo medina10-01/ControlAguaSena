@@ -36,5 +36,28 @@ namespace DarkDemo.Clases
                 MessageBox.Show("Error al cargar la imagen del usuario: " + ex.Message);
             }
         }
+        public void CargarUnaImgen(PictureBox pictureBox1)
+        {
+            // Crear y configurar el OpenFileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = "C:\\";
+            openFileDialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg;*.png)|*.bmp;*.jpg;*.jpeg;*.png";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.RestoreDirectory = true;
+
+            // Mostrar el diálogo y verificar si el usuario seleccionó un archivo
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Obtener la ruta del archivo seleccionado
+                string filePath = openFileDialog.FileName;
+
+                // Cargar la imagen en el PictureBox
+                pictureBox1.Image = new Bitmap(filePath);
+                pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
+                // Opcional: guardar la imagen en una ubicación específica o en una base de datos
+                // Ejemplo: pictureBox.Image.Save("ruta_de_guardado");
+            }
+        }
     }
 }

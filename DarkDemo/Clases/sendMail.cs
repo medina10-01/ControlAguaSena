@@ -64,7 +64,7 @@ namespace DarkDemo.Clases
                     smtpClient.Send(message);
                     smtpClient.Disconnect(true);
                 }
-
+                
                 MessageBox.Show("Correo enviado exitosamente.");
             }
             catch (SmtpCommandException ex)

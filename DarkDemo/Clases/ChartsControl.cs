@@ -106,6 +106,7 @@ namespace DarkDemo.Clases
                 int value = (int)Math.Min(Math.Max(newValue, 0), 100);
                 double valueDouble = Math.Round(Math.Min(Math.Max(newValue, 0), 100), 2);
 
+               
 
                 // Actualiza el valor de progreso en el CircularProgressBar
                 circularProgressBar.Value = value;
@@ -113,6 +114,7 @@ namespace DarkDemo.Clases
                 // Actualiza el texto que se muestra en el centro del CircularProgressBar
                 circularProgressBar.Text = $"{valueDouble}%";
             }
+
         }
 
     }

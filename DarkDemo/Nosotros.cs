@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using DarkDemo.Clases;
 using GMap.NET;
@@ -36,13 +37,9 @@ namespace DarkDemo
 
         private void button9_Click(object sender, EventArgs e)
         {
-           
-            cBroker.LimpiarDatos(textBox1);
             cBroker.LimpiarDatos(textBox2);
             cBroker.LimpiarDatos(textBox3);
             cBroker.LimpiarDatos(textBox4);
-            cBroker.LimpiarDatos(textBox5);
-            cBroker.LimpiarDatos(textBox6);
             cBroker.LimpiarDatos(textBox7);
             cBroker.LimpiarDatos(textBox8);
         }
@@ -85,7 +82,6 @@ namespace DarkDemo
             cBroker .LimpiarDatos(textBox9);
             cBroker .LimpiarDatos(textBox10);
             cBroker .LimpiarDatos(textBox11);
-            cBroker .LimpiarDatos(textBox12);
         }
 
 
@@ -116,6 +112,32 @@ namespace DarkDemo
             cBroker.LimpiarDatos(textBox20);
             cBroker.LimpiarDatos(textBox21);
             cBroker.LimpiarDatos(textBox22);
+        }
+
+        private void panel4_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            UserClass userClass = new UserClass();
+            userClass.CargarUnaImgen(pictureBox1);
         }
     }
 }
