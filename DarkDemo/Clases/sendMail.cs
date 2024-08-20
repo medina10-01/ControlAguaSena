@@ -2,6 +2,7 @@
 using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,29 +15,52 @@ namespace DarkDemo.Clases
     {
         internal void SendMail(System.Windows.Forms.TextBox destino, System.Windows.Forms.TextBox asunto, System.Windows.Forms.TextBox cuerpo)
         {
+            string loadDestino = destino.Text;
+            string loadAsunto = asunto.Text;
+            string loadCuerpo = cuerpo.Text;
+
+            mailSender(loadDestino, loadAsunto, loadCuerpo);
+        }
+
+        public void mailSender(string destino, string asunto, string cuerpo, byte[] pdfBites = null, string pdfFileName = null)
+        {
             try
             {
-                String Servidor = "smtp.gmail.com";
-                int Puerto = 587;
+                string servidor = "smtp.gmail.com";
+                int puerto = 587;
 
-                String GmailUser = "pae73760@gmail.com";
-                String GmailPassword = "mbds laoq ineb swln"; // Asegúrate de tener la contraseña aquí
+                string gmailUser = "pae73760@gmail.com";
+                string gmailPassword = "mbds laoq ineb swln";
 
-                MimeMessage message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Pae", GmailUser));
-                message.To.Add(new MailboxAddress("Destino", destino.Text));
-                message.Subject = asunto.Text;
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("Pisicultura", gmailUser));
+                message.To.Add(new MailboxAddress("Destino", destino));
+                message.Subject = asunto;
 
-                BodyBuilder bodyBuilder = new BodyBuilder();
-                bodyBuilder.TextBody = cuerpo.Text;
+                var bodyBuilder = new BodyBuilder
+                {
+                    TextBody = cuerpo
+                };
+
+                if (pdfBites != null && pdfBites.Length > 0 && !string.IsNullOrEmpty(pdfFileName))
+                {
+                    // Crear un MimePart usando un byte array en lugar de un MemoryStream
+                    var attachment = new MimePart("application", "pdf")
+                    {
+                        Content = new MimeContent(new MemoryStream(pdfBites)),
+                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                        FileName = pdfFileName
+                    };
+                    bodyBuilder.Attachments.Add(attachment);
+                }
 
                 message.Body = bodyBuilder.ToMessageBody();
 
-                using (SmtpClient smtpClient = new SmtpClient())
+                using (var smtpClient = new SmtpClient())
                 {
                     smtpClient.CheckCertificateRevocation = false;
-                    smtpClient.Connect(Servidor, Puerto, MailKit.Security.SecureSocketOptions.StartTls);
-                    smtpClient.Authenticate(GmailUser, GmailPassword);
+                    smtpClient.Connect(servidor, puerto, MailKit.Security.SecureSocketOptions.StartTls);
+                    smtpClient.Authenticate(gmailUser, gmailPassword);
                     smtpClient.Send(message);
                     smtpClient.Disconnect(true);
                 }
@@ -45,7 +69,7 @@ namespace DarkDemo.Clases
             }
             catch (SmtpCommandException ex)
             {
-                 MessageBox.Show($"Error en el comando SMTP: {ex.Message}");
+                MessageBox.Show($"Error en el comando SMTP: {ex.Message}");
                 MessageBox.Show($"Código de estado: {ex.StatusCode}");
             }
             catch (SmtpProtocolException ex)
@@ -57,5 +81,6 @@ namespace DarkDemo.Clases
                 MessageBox.Show($"Ocurrió un error: {ex.Message}");
             }
         }
+
     }
 }

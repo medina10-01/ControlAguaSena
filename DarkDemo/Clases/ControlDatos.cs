@@ -213,53 +213,40 @@ namespace DarkDemo
                 MessageBox.Show("No se mostraron datos Error:" + ex.ToString());
             }
         }
-        public void EliminarProceso(string id)
+        public void PrimerRegistro(DateTimePicker dateTimePicker)
         {
-        //   MySqlConnection conexion = null;
-        //   MySqlCommand mySqlCommand = null;
-        //
-        //   try
-        //   {
-        //
-        //
-        //       CConexion cConexion = new CConexion();
-        //       conexion = cConexion.establecerConexion(); // Establecer conexión
-        //
-        //       String query = "UPDATE proceso SET estado = 0 WHERE id = @id;";
-        //       mySqlCommand = new MySqlCommand(query, conexion);
-        //
-        //       // Asignar los valores de los parámetros
-        //       mySqlCommand.Parameters.AddWithValue("@id", id);
-        //
-        //       // Ejecutar la consulta
-        //       int filasAfectadas = mySqlCommand.ExecuteNonQuery();
-        //
-        //       // Verificar si la consulta afectó alguna fila
-        //       if (filasAfectadas > 0)
-        //       {
-        //           // La actualización fue exitosa
-        //           MessageBox.Show("Proceso eliminado exitosamente.");
-        //           //               //   MostrarUsuarios(tablareportes2);
-        //       }
-        //       else
-        //       {
-        //           // No se encontró el registro
-        //           MessageBox.Show("No se encontró el proceso con el ID proporcionado.");
-        //       }
-        //
-        //   }
-        //   catch (Exception ex)
-        //   {
-        //       MessageBox.Show("Error: " + ex.Message);
-        //   }
-        //   finally
-        //   {
-        //       CConexion cConexion = new CConexion();
-        //
-        //       cConexion.cerrarConexion(); // Usar el método específico para cerrar la conexión
-        //
-        //   }
+            try
+            {
+                CConexion cConexion = new CConexion();
+                String query = "SELECT MIN(fecha) AS fecha FROM lecturas";
 
+                // Abre la conexión
+                MySqlConnection connection = cConexion.establecerConexion();
+
+                // Crear comando para ejecutar la consulta
+                MySqlCommand command = new MySqlCommand(query, connection);
+
+                // Ejecutar la consulta y obtener el resultado
+                object result = command.ExecuteScalar();
+
+                if (result != DBNull.Value)
+                {
+                    // Convertir el resultado a DateTime y establecerlo en el DateTimePicker
+                    DateTime fecha = Convert.ToDateTime(result);
+                    dateTimePicker.Value = fecha;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró ninguna fecha en la base de datos.");
+                }
+
+                // Cerrar la conexión
+                cConexion.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void TablaReportes_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -280,14 +267,49 @@ namespace DarkDemo
 
                      if (dgv.Columns[e.ColumnIndex].Name == "PDFToMail")
                      {
+                        DataTable dataTable = SeleccionarProceso(formattedDate);
+                        if (dataTable != null)
+                        {
+                            sendMail sendMail = new sendMail();
+                            string fechaFormateada = fecha.ToString("yyyy-MM-dd");
+                            string destino = "mstiven748@gmail.com";
+                            string asunto = "Reporte de lagos en la fecha: "+fechaFormateada;
+                            // Este ejemplo asume que ya tienes un control WebBrowser en tu formulario.
+
+                            string pdfPath = Path.Combine(
+                                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                @"Downloads\Sena\PDF\" + fechaFormateada + ".pdf"
+                            );
+
+                            byte[] bites = File.ReadAllBytes(pdfPath);
+
+                            string cuerpo = "Pdf del reporte:";
+
+                            sendMail.mailSender(destino, asunto, cuerpo, bites, fechaFormateada);
+                        }
                         // EliminarProceso(procesoValue);
-                        MessageBox.Show($"Eliminar clicked for proceso: {formattedDate}");
+                       // MessageBox.Show($"Eliminar clicked for proceso: {formattedDate}");
                      }
                      else if (dgv.Columns[e.ColumnIndex].Name == "PDF")
                      {
-                         SeleccionarProceso(formattedDate);
-                         // MessageBox.Show($"PDF clicked for proceso: {procesoValue}");
-                     }
+                        DataTable dataTable = SeleccionarProceso(formattedDate);
+
+                        if (dataTable != null)
+                        {
+                            // Si SeleccionarProceso fue exitoso y devolvió datos, generar el PDF
+                            string fechaFormateada = fecha.ToString("yyyy-MM-dd");
+                            string pdfPath = Path.Combine(
+                                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                                @"Downloads\Sena\PDF\" + fechaFormateada + ".pdf"
+                            );
+
+                            GenerarPDF(dataTable, pdfPath);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se generó el PDF debido a que no se encontraron datos.");
+                        }
+                    }
                 }
                 else
                 {
@@ -296,20 +318,23 @@ namespace DarkDemo
                 }
             }
         }
-        public void SeleccionarProceso(string fecha)
+
+
+
+        public DataTable SeleccionarProceso(string fecha)
         {
             try
             {
                 if (string.IsNullOrEmpty(fecha))
                 {
                     MessageBox.Show("La fecha no puede estar vacía");
-                    return;
+                    return null;
                 }
 
                 CConexion objetoConexion = new CConexion();
-                String query = "SELECT fecha, oxigeno , temperatura " +
-                                "FROM lecturas " +
-                                "WHERE fecha = @fecha ";
+                String query = "SELECT fecha, oxigeno, temperatura " +
+                               "FROM lecturas " +
+                               "WHERE fecha = @fecha ";
 
                 using (MySqlConnection connection = objetoConexion.establecerConexion())
                 {
@@ -321,19 +346,16 @@ namespace DarkDemo
                     if (dataTable.Rows.Count == 0)
                     {
                         MessageBox.Show("No se encontraron datos para la fecha especificada.");
-                        return;
+                        return null;
                     }
-                    string fechaFormateada = fecha.Replace("/", "-");
-                    string pdfPath = Path.Combine(
-                   Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                   @"Downloads\Sena\PDF\"+ fechaFormateada + ".pdf"
-               );
-                    GenerarPDF(dataTable, pdfPath);
+
+                    return dataTable; // Devolver el DataTable si tiene datos
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("No se mostraron datos. Error: " + ex.ToString());
+                return null;
             }
         }
 
@@ -475,61 +497,39 @@ namespace DarkDemo
 
 
 
- 
-        public void SumarProcesos(System.Windows.Forms.ComboBox comboBox)
+
+        public void FiltrarPorFechas(DateTimePicker inicio, DateTimePicker fin, DataGridView dataGridView)
         {
             try
             {
+                // Abrir la conexión a la base de datos
                 CConexion cConexion = new CConexion();
-                String query = "SELECT id FROM Proceso ORDER BY id DESC";
+                MySqlConnection connection = cConexion.establecerConexion();
 
+                // Construir la consulta con parámetros para evitar SQL injection
+                String query = "SELECT fecha, ROUND(AVG(oxigeno), 2) AS promedio_oxigeno, ROUND(AVG(temperatura), 2) AS promedio_temperatura FROM lecturas WHERE fecha BETWEEN @inicio AND @fin GROUP BY fecha";
+
+                // Crear el comando SQL y asignar los parámetros
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@inicio", inicio.Value.Date);
+                command.Parameters.AddWithValue("@fin", fin.Value.Date);
+
+                // Ejecutar la consulta y llenar un DataTable con los resultados
+                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                 DataTable dataTable = new DataTable();
-                using (MySqlConnection connection = cConexion.establecerConexion())
-                {
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, connection);
-                    adapter.Fill(dataTable);
-                }
+                adapter.Fill(dataTable);
 
-                DataTable modifiedDataTable = new DataTable();
-                modifiedDataTable.Columns.Add("id");
+                // Asignar el DataTable al DataGridView
+                dataGridView.DataSource = dataTable;
 
-                // Obtener el valor del último id y añadir uno
-                int newId = 1; // Valor por defecto en caso de que la tabla esté vacía
-                if (dataTable.Rows.Count > 0)
-                {
-                    int lastId = Convert.ToInt32(dataTable.Rows[0]["id"]);
-                    newId = lastId + 1;
-                }
-
-                // Agrega la fila "Nuevo" al principio con el id incrementado
-                DataRow newRow = modifiedDataTable.NewRow();
-                newRow["id"] = newId.ToString();
-                modifiedDataTable.Rows.Add(newRow);
-
-                
-
-                // Copia los datos de la tabla original a la nueva tabla
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    modifiedDataTable.ImportRow(row);
-                }
-
-                if (modifiedDataTable.Rows.Count > 0)
-                {
-                    comboBox.DisplayMember = "id";
-                    comboBox.ValueMember = "id";
-                    comboBox.DataSource = modifiedDataTable;
-                }
-                else
-                {
-                    MessageBox.Show("No se encontraron datos en la tabla Proceso.");
-                }
+                // Cerrar la conexión a la base de datos
+                cConexion.cerrarConexion();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("No se mostraron datos. Error: " + ex.ToString());
             }
-
         }
+
     }
 }

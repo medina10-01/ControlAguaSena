@@ -12,11 +12,12 @@ namespace DarkDemo
 {
     public partial class Reportes : Form
     {
+        ControlDatos controlDatos = new ControlDatos();
         public Reportes()
         {
             InitializeComponent();
-            ControlDatos controlDatos = new ControlDatos();
             controlDatos.MostrarRegistros(tablaReportes);
+            controlDatos.PrimerRegistro(dateTimePicker1);
         }
 
         private void Reportes_Load(object sender, EventArgs e)
@@ -37,6 +38,11 @@ namespace DarkDemo
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            controlDatos.FiltrarPorFechas(dateTimePicker1, dateTimePicker2, tablaReportes);
         }
     }
 }
