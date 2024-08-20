@@ -39,7 +39,6 @@
             this.button5 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -94,6 +93,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button16 = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -265,14 +265,6 @@
             this.label3.TabIndex = 32;
             this.label3.Text = "Lago ";
             // 
-            // textBox2
-            // 
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Location = new System.Drawing.Point(79, 65);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(183, 20);
-            this.textBox2.TabIndex = 33;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -384,6 +376,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.button9);
             this.panel1.Controls.Add(this.button8);
@@ -395,7 +388,6 @@
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.textBox4);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.textBox2);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(11, 83);
             this.panel1.Name = "panel1";
@@ -848,7 +840,7 @@
             this.panel3.Controls.Add(this.label10);
             this.panel3.Controls.Add(this.textBox10);
             this.panel3.Controls.Add(this.label11);
-            this.panel3.Location = new System.Drawing.Point(622, 241);
+            this.panel3.Location = new System.Drawing.Point(614, 204);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(700, 312);
             this.panel3.TabIndex = 48;
@@ -901,6 +893,14 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(139, 100);
             this.panel6.TabIndex = 52;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(79, 65);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(184, 21);
+            this.comboBox1.TabIndex = 49;
             // 
             // Nosotros
             // 
@@ -958,7 +958,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TextBox textBox6;
@@ -1003,5 +1002,6 @@
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
