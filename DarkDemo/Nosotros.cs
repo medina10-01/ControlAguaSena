@@ -93,5 +93,20 @@ namespace DarkDemo
         {
 
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem != null && textBox1 != null && textBox2 != null)
+            {
+                ComboBoxItem selectedItem = (ComboBoxItem)comboBox1.SelectedItem;
+                MessageBox.Show(selectedItem.Id);
+                            ControlDatos controlDatos = new ControlDatos();
+                controlDatos.ParametrosIniciales(dateTimePicker1, textBox1, textBox2, dateTimePicker2, selectedItem);
+            }
+            else {
+                MessageBox.Show("Ninguno de los campos puede estar vacío");
+                return;
+            }
+        }
     }
 }
