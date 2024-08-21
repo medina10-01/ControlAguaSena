@@ -21,6 +21,7 @@ using OxyPlot.Series;
 using OxyPlot;
 using PageSize = iTextSharp.text.PageSize;
 using Element = iTextSharp.text.Element;
+using System.Data.SqlClient;
 
 namespace DarkDemo
 {
@@ -320,8 +321,6 @@ namespace DarkDemo
             }
         }
 
-
-
         public DataTable SeleccionarProceso(string fecha)
         {
             try
@@ -439,7 +438,6 @@ namespace DarkDemo
             }
         }
 
-
         // Clase para el encabezado y pie de página personalizados
         public class PDFHeaderFooter : PdfPageEventHelper
         {
@@ -494,11 +492,6 @@ namespace DarkDemo
             }
         }
 
-
-
-
-
-
         public void FiltrarPorFechas(DateTimePicker inicio, DateTimePicker fin, DataGridView dataGridView)
         {
             try
@@ -529,6 +522,91 @@ namespace DarkDemo
             catch (Exception ex)
             {
                 MessageBox.Show("No se mostraron datos. Error: " + ex.ToString());
+            }
+        }
+
+        //lisar el nombre de los lagos
+        public void obtenerNombreDeLagos(System.Windows.Forms.ComboBox comboBox)
+        {
+            try
+            {
+                CConexion conexion = new CConexion();
+                String query = "SELECT id, name FROM lagos";
+
+             
+
+                // Ejecutamos la consulta
+                MySqlCommand command = new MySqlCommand(query, conexion.establecerConexion());
+                MySqlDataReader reader = command.ExecuteReader();
+
+                // Limpiamos los elementos existentes en el ComboBox
+                comboBox.Items.Clear();
+
+                // Llenamos el ComboBox con los resultados de la consulta
+                while (reader.Read())
+                {
+                    comboBox.Items.Add(new ComboBoxItem(reader["name"].ToString(), reader["id"].ToString()));
+                }
+                if (comboBox.Items.Count > 0)
+                {
+                    comboBox.SelectedIndex = 0; // Selecciona el primer elemento del ComboBox
+                }
+
+                // Cerramos la conexión y el lector
+                reader.Close();
+                conexion.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en la consulta: " + ex.Message);
+            }
+        }
+
+        public class ComboBoxItem
+        {
+            public string Name { get; set; }
+            public string Id { get; set; }
+
+            public ComboBoxItem(string name, string id)
+            {
+                Name = name;
+                Id = id;
+            }
+
+            public override string ToString()
+            {
+                return Name; // Esto es lo que se mostrará en el ComboBox
+            }
+        }
+        // registrar parametros Iniciales
+        public void ParametrosIniciales(DateTimePicker inicio, System.Windows.Forms.TextBox densidad, System.Windows.Forms.TextBox especie, DateTimePicker finEstimado, ComboBoxItem idLago)
+        {
+            try
+            {
+                CConexion conexion = new CConexion();
+
+                // Definir la consulta SQL
+                string query = "INSERT INTO cosecha (fecha_inicio, densidad_ciembra, especie, fecha_fin_estimada, lago_id) " +
+                               "VALUES (@fecha_inicio, @densidad_ciembra, @especie, @fecha_fin_estimada, @lago_id);";
+
+                // Crear el comando SQL
+                MySqlCommand command = new MySqlCommand(query, conexion.establecerConexion()); // Asumiendo que la propiedad 'Conexion' es de tipo SqlConnection
+
+                // Añadir parámetros al comando
+                command.Parameters.AddWithValue("@fecha_inicio", inicio.Value);
+                command.Parameters.AddWithValue("@densidad_ciembra", densidad.Text);
+                command.Parameters.AddWithValue("@especie", especie.Text);
+                command.Parameters.AddWithValue("@fecha_fin_estimada", finEstimado.Value);
+                command.Parameters.AddWithValue("@lago_id", idLago.Id); // Asumiendo que 'SelectedValue' es la propiedad correcta
+
+                // Ejecutar el comando
+                command.ExecuteNonQuery();
+
+                conexion.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en registrar: " + ex.Message);
             }
         }
 

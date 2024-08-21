@@ -30,13 +30,17 @@ namespace DarkDemo
 
         private void button4_Click(object sender, EventArgs e)
         {
-
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             parentForm.MostrarLagos();
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            parentForm.MostrarReportes();
         }
     }
 }

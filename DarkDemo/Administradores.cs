@@ -36,5 +36,10 @@ namespace DarkDemo
         {
             parentForm.MostrarFinCosecha();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            parentForm.MostrarReportes();
+        }
     }
 }

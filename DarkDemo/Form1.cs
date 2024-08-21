@@ -53,6 +53,11 @@ namespace DarkDemo
         public void MostrarLagos()
         {
             MostrarFormulario(lagos);
+        } 
+        
+        public void MostrarReportes()
+        {
+            MostrarFormulario(nosotros);
         }  
         
         public void MostrarFinCosecha()

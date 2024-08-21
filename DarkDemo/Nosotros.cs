@@ -6,6 +6,8 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using static DarkDemo.ControlDatos;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DarkDemo
 {
@@ -19,6 +21,8 @@ namespace DarkDemo
             InitializeComponent();
 
             parentForm = form1;
+            ControlDatos controlDatos = new ControlDatos();
+            controlDatos.obtenerNombreDeLagos(comboBox1);
         }
         private void Nosotros_Load(object sender, EventArgs e)
         {
@@ -40,8 +44,6 @@ namespace DarkDemo
             
             cBroker.LimpiarDatos(textBox3);
             cBroker.LimpiarDatos(textBox4);
-            cBroker.LimpiarDatos(textBox7);
-            cBroker.LimpiarDatos(textBox8);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -68,6 +70,22 @@ namespace DarkDemo
         {
             UserClass userClass = new UserClass();
            // userClass.CargarUnaImgen(pictureBox1);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem != null && textBox4 != null && textBox3 != null)
+            {
+                ComboBoxItem selectedItem = (ComboBoxItem)comboBox1.SelectedItem;
+                MessageBox.Show(selectedItem.Id);
+
+                ControlDatos controlDatos = new ControlDatos();
+                controlDatos.ParametrosIniciales(dateTimePicker1, textBox4, textBox3, dateTimePicker2, selectedItem);
+            }
+            else {
+                MessageBox.Show("Ninguno de los campos puede estar vacío");
+                return;
+            }
         }
     }
 }
