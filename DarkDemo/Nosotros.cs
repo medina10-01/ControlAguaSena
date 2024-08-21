@@ -42,8 +42,7 @@ namespace DarkDemo
         private void button9_Click(object sender, EventArgs e)
         {
             
-            cBroker.LimpiarDatos(textBox3);
-            cBroker.LimpiarDatos(textBox4);
+         
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -65,27 +64,34 @@ namespace DarkDemo
 
         }
 
+      // private void button8_Click(object sender, EventArgs e)
+      // {
+      //     if (comboBox1.SelectedItem != null && textBox4 != null && textBox3 != null)
+      //     {
+      //         ComboBoxItem selectedItem = (ComboBoxItem)comboBox1.SelectedItem;
+      //         MessageBox.Show(selectedItem.Id);
+      //
+      //         ControlDatos controlDatos = new ControlDatos();
+      //         controlDatos.ParametrosIniciales(dateTimePicker1, textBox4, textBox3, dateTimePicker2, selectedItem);
+      //     }
+      //     else {
+      //         MessageBox.Show("Ninguno de los campos puede estar vacío");
+      //         return;
+      //     }
+      // }
 
-        private void button16_Click(object sender, EventArgs e)
+        private void Parametros_Click(object sender, EventArgs e)
         {
-            UserClass userClass = new UserClass();
-           // userClass.CargarUnaImgen(pictureBox1);
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
-            if (comboBox1.SelectedItem != null && textBox4 != null && textBox3 != null)
-            {
-                ComboBoxItem selectedItem = (ComboBoxItem)comboBox1.SelectedItem;
-                MessageBox.Show(selectedItem.Id);
 
-                ControlDatos controlDatos = new ControlDatos();
-                controlDatos.ParametrosIniciales(dateTimePicker1, textBox4, textBox3, dateTimePicker2, selectedItem);
-            }
-            else {
-                MessageBox.Show("Ninguno de los campos puede estar vacío");
-                return;
-            }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

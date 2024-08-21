@@ -27,6 +27,7 @@ namespace DarkDemo
 
         }
 
+
         private void button3_Click(object sender, EventArgs e)
         {
             parentForm.MostrarLagos();
@@ -40,6 +41,18 @@ namespace DarkDemo
         private void button5_Click(object sender, EventArgs e)
         {
             parentForm.MostrarReportes();
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            UserClass userClass = new UserClass();
+            userClass.CargarUnaImgen(pictureBox1);
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            ControlDatos controlDatos = new ControlDatos();
+            controlDatos.RegistrarResponsable(pictureBox1, textBox9, textBox11, textBox10);
         }
     }
 }

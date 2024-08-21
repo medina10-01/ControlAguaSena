@@ -30,24 +30,24 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Administradores));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button16 = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button16 = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -69,107 +69,6 @@
             this.panel1.Size = new System.Drawing.Size(800, 450);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.panel6);
-            this.panel3.Controls.Add(this.button16);
-            this.panel3.Controls.Add(this.label13);
-            this.panel3.Controls.Add(this.button11);
-            this.panel3.Controls.Add(this.button10);
-            this.panel3.Controls.Add(this.textBox11);
-            this.panel3.Controls.Add(this.label12);
-            this.panel3.Controls.Add(this.textBox9);
-            this.panel3.Controls.Add(this.label10);
-            this.panel3.Controls.Add(this.textBox10);
-            this.panel3.Controls.Add(this.label11);
-            this.panel3.Location = new System.Drawing.Point(12, 87);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(723, 312);
-            this.panel3.TabIndex = 49;
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.pictureBox1);
-            this.panel6.Location = new System.Drawing.Point(116, 59);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(139, 100);
-            this.panel6.TabIndex = 52;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Cooper Black", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(104, 32);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(81, 21);
-            this.label13.TabIndex = 49;
-            this.label13.Text = "Imagen";
-            // 
-            // textBox11
-            // 
-            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox11.Location = new System.Drawing.Point(409, 115);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(183, 20);
-            this.textBox11.TabIndex = 39;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Cooper Black", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(404, 91);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(164, 21);
-            this.label12.TabIndex = 38;
-            this.label12.Text = "Lider de Unidad";
-            // 
-            // textBox9
-            // 
-            this.textBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox9.Location = new System.Drawing.Point(426, 60);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(183, 20);
-            this.textBox9.TabIndex = 35;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Cooper Black", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(404, 32);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(164, 21);
-            this.label10.TabIndex = 34;
-            this.label10.Text = "Lider de Unidad";
-            // 
-            // textBox10
-            // 
-            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox10.Location = new System.Drawing.Point(417, 183);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(183, 20);
-            this.textBox10.TabIndex = 33;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Cooper Black", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(404, 159);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(164, 21);
-            this.label11.TabIndex = 32;
-            this.label11.Text = "Lider de Unidad";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(179)))), ((int)(((byte)(25)))));
-            this.label1.Location = new System.Drawing.Point(309, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(136, 36);
-            this.label1.TabIndex = 50;
-            this.label1.Text = "Registrar";
             // 
             // button4
             // 
@@ -243,6 +142,43 @@
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Century Gothic", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(179)))), ((int)(((byte)(25)))));
+            this.label1.Location = new System.Drawing.Point(309, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(136, 36);
+            this.label1.TabIndex = 50;
+            this.label1.Text = "Registrar";
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.panel6);
+            this.panel3.Controls.Add(this.button16);
+            this.panel3.Controls.Add(this.label13);
+            this.panel3.Controls.Add(this.button11);
+            this.panel3.Controls.Add(this.button10);
+            this.panel3.Controls.Add(this.textBox11);
+            this.panel3.Controls.Add(this.label12);
+            this.panel3.Controls.Add(this.textBox9);
+            this.panel3.Controls.Add(this.label10);
+            this.panel3.Controls.Add(this.textBox10);
+            this.panel3.Controls.Add(this.label11);
+            this.panel3.Location = new System.Drawing.Point(12, 87);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(723, 312);
+            this.panel3.TabIndex = 49;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.pictureBox1);
+            this.panel6.Location = new System.Drawing.Point(116, 59);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(139, 100);
+            this.panel6.TabIndex = 52;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -269,6 +205,17 @@
             this.button16.TabIndex = 51;
             this.button16.Text = "Agregar";
             this.button16.UseVisualStyleBackColor = false;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Cooper Black", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(104, 32);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(81, 21);
+            this.label13.TabIndex = 49;
+            this.label13.Text = "Imagen";
             // 
             // button11
             // 
@@ -305,6 +252,61 @@
             this.button10.TabIndex = 40;
             this.button10.Text = "Guardar";
             this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // textBox11
+            // 
+            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox11.Location = new System.Drawing.Point(426, 118);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(183, 20);
+            this.textBox11.TabIndex = 39;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Cooper Black", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(404, 94);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(76, 21);
+            this.label12.TabIndex = 38;
+            this.label12.Text = "Correo";
+            // 
+            // textBox9
+            // 
+            this.textBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox9.Location = new System.Drawing.Point(426, 60);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(183, 20);
+            this.textBox9.TabIndex = 35;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Cooper Black", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(404, 32);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(87, 21);
+            this.label10.TabIndex = 34;
+            this.label10.Text = "Nombre";
+            // 
+            // textBox10
+            // 
+            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox10.Location = new System.Drawing.Point(426, 183);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(183, 20);
+            this.textBox10.TabIndex = 33;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Cooper Black", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(404, 159);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(93, 21);
+            this.label11.TabIndex = 32;
+            this.label11.Text = "Telefono";
             // 
             // Administradores
             // 

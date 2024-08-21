@@ -610,5 +610,75 @@ namespace DarkDemo
             }
         }
 
+        public void RegistrarResponsable(PictureBox pictureBox, System.Windows.Forms.TextBox textBox, System.Windows.Forms.TextBox textBox1, System.Windows.Forms.TextBox textBox2)
+        {
+            try
+            {
+                CConexion conexion = new CConexion();
+                string rutaImagen;
+
+                // Guardar la imagen y obtener la ruta
+                if (GuardarImagen(pictureBox, out rutaImagen))
+                {
+                    // Ahora la imagen está guardada, podemos realizar la consulta SQL
+                    string query = "INSERT INTO users (name, mail, cellPhone, UserImage) " +
+                                   "VALUES (@name, @mail, @cellPhone, @UserImage);";
+
+                    using (MySqlConnection conn = conexion.establecerConexion())
+                    {
+                        using (MySqlCommand command = new MySqlCommand(query, conn))
+                        {
+                            command.Parameters.AddWithValue("@name", textBox.Text);
+                            command.Parameters.AddWithValue("@mail", textBox1.Text);
+                            command.Parameters.AddWithValue("@cellPhone", textBox2.Text);
+
+                            // Leer la imagen y convertirla en un array de bytes
+                            byte[] imagenBytes = File.ReadAllBytes(rutaImagen);
+                            command.Parameters.AddWithValue("@UserImage", imagenBytes);
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Registro exitoso.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error: " + ex.Message);
+            }
+        }
+
+
+        public bool GuardarImagen(PictureBox pictureBox, out string rutaImagen)
+        {
+            try
+            {
+                string carpetaRaiz = AppDomain.CurrentDomain.BaseDirectory; // Ruta raíz del proyecto
+                string rutaDirectorio = Path.Combine(carpetaRaiz, "Sena", "Imagenes", "ImagenesDeUsuario");
+
+                // Crear el directorio si no existe
+                if (!Directory.Exists(rutaDirectorio))
+                {
+                    Directory.CreateDirectory(rutaDirectorio);
+                }
+
+                // Generar un nombre único para la imagen
+                string nombreImagen = Guid.NewGuid().ToString() + ".jpg";
+                rutaImagen = Path.Combine(rutaDirectorio, nombreImagen);
+
+                // Guardar la imagen en el directorio
+                pictureBox.Image.Save(rutaImagen, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar la imagen: " + ex.Message);
+                rutaImagen = null;
+                return false;
+            }
+        }
+
     }
 }
