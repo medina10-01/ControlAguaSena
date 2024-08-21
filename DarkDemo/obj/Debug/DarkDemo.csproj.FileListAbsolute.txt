@@ -164,3 +164,6 @@ C:\Users\brayan\Downloads\Sena\DarkDemo\bin\Debug\MimeKit.xml
 C:\Users\brayan\Downloads\Sena\DarkDemo\bin\Debug\MimeKit.dll.config
 C:\Users\brayan\Downloads\Sena\DarkDemo\bin\Debug\System.Formats.Asn1.xml
 C:\Users\brayan\Downloads\Sena\DarkDemo\obj\Debug\DarkDemo.mailSender.resources
+C:\Users\brayan\Downloads\Sena\DarkDemo\obj\Debug\DarkDemo.Administradores.resources
+C:\Users\brayan\Downloads\Sena\DarkDemo\obj\Debug\DarkDemo.FinCosecha.resources
+C:\Users\brayan\Downloads\Sena\DarkDemo\obj\Debug\DarkDemo.Lagos.resources
