@@ -39,7 +39,7 @@ namespace DarkDemo
             this.Location = new Point(100, 100);
             InicializarFormularios();
             UserClass userClass = new UserClass();
-            userClass.MirarUsuario(pictureBox4);
+            userClass.MirarUsuario(pictureBox4, label6);
         }
 
         private void InicializarFormularios()

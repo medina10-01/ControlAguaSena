@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -10,25 +11,48 @@ namespace DarkDemo.Clases
 {
     internal class UserClass
     {
-        public void MirarUsuario(PictureBox pictureBox)
+        public void MirarUsuario(PictureBox pictureBox, Label label)
         {
             try
             {
-                // Especificar la ruta completa de la imagen
-                string imagePath = @"C:\Users\brayan\Downloads\Sena\Imagenes\ImagenesDeUsuario\WhatsApp Image 2024-07-27 at 6.44.12 PM.jpeg";
+                CConexion cConexion = new CConexion();
+                String query = "SELECT name, UserImage FROM users LIMIT 1";
 
-                // Verificar si el archivo existe
-                if (System.IO.File.Exists(imagePath))
+                using (MySqlConnection connection = cConexion.establecerConexion())
                 {
-                    // Cargar la imagen en el PictureBox
-                    pictureBox.Image = Image.FromFile(imagePath);
+                    MySqlCommand mySqlCommand = new MySqlCommand(query, connection);
+                    using (MySqlDataReader reader = mySqlCommand.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string userName = reader["name"].ToString();
+                            string imageName = reader["UserImage"].ToString();
 
-                    // Ajustar la imagen al tamaño del contenedor
-                    pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                }
-                else
-                {
-                    MessageBox.Show("La imagen no se encontró en la ruta especificada.");
+                            // Especificar la ruta completa de la imagen
+                            string imagePath = System.IO.Path.Combine(@"C:\Users\brayan\Downloads\Sena\Imagenes\ImagenesDeUsuario", imageName);
+
+                            // Verificar si el archivo existe
+                            if (System.IO.File.Exists(imagePath))
+                            {
+                                // Cargar la imagen en el PictureBox
+                                pictureBox.Image = Image.FromFile(imagePath);
+
+                                // Ajustar la imagen al tamaño del contenedor
+                                pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                                // Asignar el nombre del usuario al Label
+                                label.Text = userName;
+                            }
+                            else
+                            {
+                                MessageBox.Show("La imagen no se encontró en la ruta especificada.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se encontró ningún usuario en la base de datos.");
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -36,6 +60,7 @@ namespace DarkDemo.Clases
                 MessageBox.Show("Error al cargar la imagen del usuario: " + ex.Message);
             }
         }
+
         public void CargarUnaImgen(PictureBox pictureBox1)
         {
             // Crear y configurar el OpenFileDialog

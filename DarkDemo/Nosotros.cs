@@ -223,7 +223,7 @@ namespace DarkDemo
                 }
 
                 // Validar que textBox3 contenga solo números
-                if (!int.TryParse(textBox3.Text, out _))
+                if (int.TryParse(textBox3.Text, out _))
                 {
                     MessageBox.Show("Telefono debe contener solo números.");
                     return;

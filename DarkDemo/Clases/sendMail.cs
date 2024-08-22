@@ -1,5 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,36 @@ namespace DarkDemo.Clases
 {
     internal class sendMail
     {
+
+        public void EnviarVariosMail(string data, string topico)
+        {
+            try
+            {
+                CConexion cConexion = new CConexion();
+                String query = "SELECT mail FROM users";
+                DateTime fecha = DateTime.Now;
+                string asunto = "Alerta por Niveles de oxígeno";
+                string cuerpo = "Datos de niveles de " + topico + " muy bajos. Valor: " + data + ", en la fecha: " + fecha;
+
+                using (MySqlConnection connection = cConexion.establecerConexion())
+                {
+                    MySqlCommand mySqlCommand = new MySqlCommand(query, connection);
+                    using (MySqlDataReader reader = mySqlCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string destino = reader["mail"].ToString();
+                            mailSender(destino, asunto, cuerpo);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al enviar el email: " + ex.Message);
+            }
+        }
+
         internal void SendMail(System.Windows.Forms.TextBox destino, System.Windows.Forms.TextBox asunto, System.Windows.Forms.TextBox cuerpo)
         {
             string loadDestino = destino.Text;

@@ -607,7 +607,7 @@ namespace DarkDemo
                 headerTable.AddCell(imageCell);
 
                 // Agregar texto al encabezado
-                PdfPCell textCell = new PdfPCell(new Phrase("Produccion Agropecuaria Ecologica"))
+                PdfPCell textCell = new PdfPCell(new Phrase("producción piscícola"))
                 {
                     Border = Rectangle.NO_BORDER,
                     HorizontalAlignment = Element.ALIGN_RIGHT,
