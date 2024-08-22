@@ -239,13 +239,10 @@ C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\bin\Debug\System.Tex
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\bin\Debug\System.ValueTuple.xml
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.csproj.AssemblyReference.cache
-C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.Administradores.resources
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.Clases.Contactos.resources
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.Conexion.resources
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.Dashboard.resources
-C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.FinCosecha.resources
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.Form1.resources
-C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.Lagos.resources
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.MailSender.resources
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.Nosotros.resources
 C:\Users\mstiv\OneDrive\Documentos\ControlAguaSena\DarkDemo\obj\Debug\DarkDemo.Properties.Resources.resources

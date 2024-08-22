@@ -159,12 +159,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administradores.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Administradores.Designer.cs">
-      <DependentUpon>Administradores.cs</DependentUpon>
-    </Compile>
     <Compile Include="Clases\CBroker.cs" />
     <Compile Include="Clases\CConexion.cs" />
     <Compile Include="Clases\ChartsControl.cs" />
@@ -189,23 +183,11 @@
     <Compile Include="Dashboard.Designer.cs">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="FinCosecha.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FinCosecha.Designer.cs">
-      <DependentUpon>FinCosecha.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Lagos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lagos.Designer.cs">
-      <DependentUpon>Lagos.cs</DependentUpon>
     </Compile>
     <Compile Include="MailSender.cs">
       <SubType>Form</SubType>
@@ -227,9 +209,6 @@
     <Compile Include="Reportes.Designer.cs">
       <DependentUpon>Reportes.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Administradores.resx">
-      <DependentUpon>Administradores.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Clases\Contactos.resx">
       <DependentUpon>Contactos.cs</DependentUpon>
     </EmbeddedResource>
@@ -239,14 +218,8 @@
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FinCosecha.resx">
-      <DependentUpon>FinCosecha.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Lagos.resx">
-      <DependentUpon>Lagos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MailSender.resx">
       <DependentUpon>MailSender.cs</DependentUpon>

@@ -29,35 +29,6 @@ namespace DarkDemo
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-       
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            
-         
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            parentForm.MostrarAdministradores();
-        }
-        
-        private void button3_Click(object sender, EventArgs e)
-        {
-            parentForm.MostrarLagos();
-        }
-        private void button4_Click(object sender, EventArgs e)
-        {
-            parentForm.MostrarFinCosecha();
-        }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {

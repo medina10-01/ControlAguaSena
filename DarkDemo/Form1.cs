@@ -22,10 +22,6 @@ namespace DarkDemo
 
         // llamados a los formmularios:
 
-        //formularios para controlar desde los formularios hijos
-        private Administradores administradores;
-        private Lagos lagos;
-        private FinCosecha finCosecha;
 
 
         //formularios hijos
@@ -45,25 +41,6 @@ namespace DarkDemo
             UserClass userClass = new UserClass();
             userClass.MirarUsuario(pictureBox4);
         }
-        public void MostrarAdministradores()
-        {
-            MostrarFormulario(administradores);
-        }  
-        
-        public void MostrarLagos()
-        {
-            MostrarFormulario(lagos);
-        } 
-        
-        public void MostrarReportes()
-        {
-            MostrarFormulario(nosotros);
-        }  
-        
-        public void MostrarFinCosecha()
-        {
-            MostrarFormulario(finCosecha);
-        }
 
         private void InicializarFormularios()
         {
@@ -73,9 +50,6 @@ namespace DarkDemo
             contactos = new Contactos() { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
             conexion = new Conexion() { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
             mailSender = new MailSender() { MdiParent = this, FormBorderStyle= FormBorderStyle.None, TopLevel= false, Dock = DockStyle.Fill };
-            administradores = new Administradores(this) { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill }; // Instanciar el formulario de administradores
-            lagos = new Lagos(this) { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill }; // Instanciar el formulario de administradores
-            finCosecha = new FinCosecha(this) { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill }; // Instanciar el formulario de administradores
         }
 
         private void inicio_MouseDown(object sender, MouseEventArgs e)
