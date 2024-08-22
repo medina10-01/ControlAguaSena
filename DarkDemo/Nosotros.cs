@@ -8,6 +8,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using static DarkDemo.ControlDatos;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Collections.Generic;
 
 namespace DarkDemo
 {
@@ -114,19 +115,28 @@ namespace DarkDemo
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {
+        { 
+            ControlDatos controlDatos = new ControlDatos();
             if (comboBox1.SelectedItem != null && textBox1 != null && textBox2 != null)
             {
-                ComboBoxItem selectedItem = (ComboBoxItem)comboBox1.SelectedItem;
-                ControlDatos controlDatos = new ControlDatos();
-                controlDatos.FinalizarCosecha(selectedItem, textBox12, textBox13, textBox15);
-                
+                var selectedItem = (KeyValuePair<string, string>)comboBox2.SelectedItem;
+                string idSeleccionado = selectedItem.Value; // Aquí obtienes el id seleccionado
+                MessageBox.Show(idSeleccionado);
+               
+                controlDatos.FinalizarCosecha(idSeleccionado, textBox12, textBox13, textBox15);
+                 controlDatos.obtenerNombreDeCosecha(comboBox2);
+                textBox12.Text = "";
+                textBox13.Text = "";
+                textBox15.Text = "";
             }
             else
             {
                 MessageBox.Show("Ninguno de los campos puede estar vacío");
                 return;
             }
+   
+           
+
         }
 
         private void tabPage3_Click(object sender, EventArgs e)
