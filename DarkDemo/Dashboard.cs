@@ -77,30 +77,30 @@ namespace DarkDemo
                 chart.updateDataInformation(circularProgressBar1, sensorData.oxigeno_disuelto);
                 label2.Text = "Oxigeno: " + sensorData.oxigeno_disuelto.ToString("F2") + "%";
 
-                if (sensorData.oxigeno_disuelto < 70)
-                {
-                    DateTime fecha = DateTime.Now;
-                   sendMail sendMail = new sendMail();
-                    string destino = "mstiven748@gmail.com";
-                    string asunto = "Alerta por Niveles de oxigeno";
-                    string cuerpo = "Datos de niveles de oxigeno muy bajos. Valor:"+sensorData.oxigeno_disuelto.ToString()+", en la fecha: "+fecha;
-                    sendMail.mailSender(destino,asunto,cuerpo);
-                }
+               // if (sensorData.oxigeno_disuelto < 70)
+               // {
+               //     DateTime fecha = DateTime.Now;
+               //    sendMail sendMail = new sendMail();
+               //     string destino = "mstiven748@gmail.com";
+               //     string asunto = "Alerta por Niveles de oxigeno";
+               //     string cuerpo = "Datos de niveles de oxigeno muy bajos. Valor:"+sensorData.oxigeno_disuelto.ToString()+", en la fecha: "+fecha;
+               //     sendMail.mailSender(destino,asunto,cuerpo);
+               // }
 
                 // Actualiza el segundo gráfico con temperatura
                 chart.UpdateCharts(chart2, sensorData.temperatura);
                 chart.updateDataInformation(circularProgressBar2, sensorData.temperatura);
                 label10.Text = $"Temperatura: {sensorData.temperatura:F2}°C";
 
-                if (sensorData.temperatura < 21)
-                {
-                    DateTime fecha = DateTime.Now;
-                    sendMail sendMail = new sendMail();
-                    string destino = "mstiven748@gmail.com";
-                    string asunto = "Alerta por Niveles de temperatua";
-                    string cuerpo = "Datos de niveles de temperatura muy bajos. Valor:" + sensorData.temperatura.ToString() + ", en la fecha: " + fecha;
-                    sendMail.mailSender(destino, asunto, cuerpo);
-                }
+             // if (sensorData.temperatura < 21)
+             // {
+             //     DateTime fecha = DateTime.Now;
+             //     sendMail sendMail = new sendMail();
+             //     string destino = "mstiven748@gmail.com";
+             //     string asunto = "Alerta por Niveles de temperatua";
+             //     string cuerpo = "Datos de niveles de temperatura muy bajos. Valor:" + sensorData.temperatura.ToString() + ", en la fecha: " + fecha;
+             //     sendMail.mailSender(destino, asunto, cuerpo);
+             // }
                 //Oxigeno y temperatura como valores globales
 
                 oxigeno = sensorData.oxigeno_disuelto;

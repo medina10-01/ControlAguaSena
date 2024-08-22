@@ -296,6 +296,7 @@
             this.button11.TabIndex = 42;
             this.button11.Text = "Limpiar";
             this.button11.UseVisualStyleBackColor = false;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // tabPage2
             // 
@@ -450,6 +451,7 @@
             this.button7.TabIndex = 62;
             this.button7.Text = "Limpiar";
             this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
@@ -649,6 +651,7 @@
             this.button12.TabIndex = 61;
             this.button12.Text = "Limpiar";
             this.button12.UseVisualStyleBackColor = false;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // textBox6
             // 
@@ -766,6 +769,7 @@
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(152, 20);
             this.textBox13.TabIndex = 56;
+            this.textBox13.TextChanged += new System.EventHandler(this.textBox13_TextChanged);
             // 
             // textBox15
             // 
@@ -813,6 +817,7 @@
             this.button2.TabIndex = 61;
             this.button2.Text = "Limpiar";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // comboBox2
             // 
@@ -821,6 +826,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(152, 21);
             this.comboBox2.TabIndex = 62;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // Nosotros
             // 

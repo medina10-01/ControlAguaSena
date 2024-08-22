@@ -1,6 +1,7 @@
 ﻿using DarkDemo.Clases;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
+using System.Windows.Forms.DataVisualization.Charting;
 using MySql.Data.MySqlClient;
 using Mysqlx.Cursor;
 using System;
@@ -31,14 +32,8 @@ namespace DarkDemo
         {
             try
             {
-
-                // redondear datos
                 double oxigenoRound = Math.Round(oxigeno, 2);
                 double temperaturaRound = Math.Round(temperatura, 2);
-
-                //  MessageBox.Show(oxigeno.ToString());
-                DateTime dateTime = DateTime.Now;
-                string fechaFormateada = dateTime.ToString("yyyy-MM-dd");
 
                 CConexion cConexion = new CConexion();
                 String query = "INSERT INTO lecturas (oxigeno, temperatura, fecha)" +
@@ -47,17 +42,18 @@ namespace DarkDemo
 
                 mySqlCommand.Parameters.AddWithValue("@oxigeno", oxigenoRound);
                 mySqlCommand.Parameters.AddWithValue("@temperatura", temperaturaRound);
-                mySqlCommand.Parameters.AddWithValue("@fecha", fechaFormateada);
+                mySqlCommand.Parameters.AddWithValue("@fecha", DateTime.Now); // Añadido parámetro para la fecha
+
                 int filasAfectadas = mySqlCommand.ExecuteNonQuery();
 
                 cConexion.cerrarConexion();
-
-
             }
-            catch (Exception ex) {
-                MessageBox.Show("Error: " + ex.Message);
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al registrar en lecturas: " + ex.Message);
             }
         }
+
         public void ListarBrokers(System.Windows.Forms.ComboBox comboBox)
         {
             try
@@ -149,7 +145,12 @@ namespace DarkDemo
             try
             {
                 CConexion objetoConeccion = new CConexion();
-                String query = "SELECT    fecha,   ROUND(AVG(oxigeno), 2) AS promedio_oxigeno,    ROUND(AVG(temperatura), 2) AS promedio_temperatura FROM    lecturas GROUP BY     fecha ORDER BY     fecha DESC";
+                String query = "SELECT DATE(fecha) AS fecha, " +
+                               "ROUND(AVG(oxigeno), 2) AS promedio_oxigeno, " +
+                               "ROUND(AVG(temperatura), 2) AS promedio_temperatura " +
+                               "FROM lecturas " +
+                               "GROUP BY DATE(fecha) " +
+                               "ORDER BY fecha DESC";
 
                 tablaReportes.DataSource = null;
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, objetoConeccion.establecerConexion());
@@ -166,7 +167,7 @@ namespace DarkDemo
                 tablaReportes.EnableHeadersVisualStyles = false; // Deshabilitar los estilos visuales predeterminados de los encabezados
 
                 // Agregar columna de botones
-                if (tablaReportes.Columns["Eliminar"] == null)
+                if (tablaReportes.Columns["PDFToMail"] == null)
                 {
                     DataGridViewButtonColumn btnColumnEliminar = new DataGridViewButtonColumn
                     {
@@ -177,7 +178,6 @@ namespace DarkDemo
                         DefaultCellStyle = new DataGridViewCellStyle
                         {
                             BackColor = Color.White,
-
                         }
                     };
 
@@ -190,7 +190,7 @@ namespace DarkDemo
                         DefaultCellStyle = new DataGridViewCellStyle
                         {
                             BackColor = Color.White,
-                            ForeColor = Color.White
+                            ForeColor = Color.Black
                         }
                     };
 
@@ -208,9 +208,10 @@ namespace DarkDemo
             }
             catch (Exception ex)
             {
-                MessageBox.Show("No se mostraron datos Error:" + ex.ToString());
+                MessageBox.Show("No se mostraron datos. Error: " + ex.ToString());
             }
         }
+
         public void PrimerRegistro(DateTimePicker dateTimePicker)
         {
             try
@@ -331,7 +332,7 @@ namespace DarkDemo
                 CConexion objetoConexion = new CConexion();
                 String query = "SELECT fecha, oxigeno, temperatura " +
                                "FROM lecturas " +
-                               "WHERE fecha = @fecha ";
+                               "WHERE DATE(fecha) = @fecha ";
 
                 using (MySqlConnection connection = objetoConexion.establecerConexion())
                 {
@@ -355,7 +356,6 @@ namespace DarkDemo
                 return null;
             }
         }
-
         public void GenerarPDF(DataTable dataTable, string filePath)
         {
             if (dataTable.Rows.Count > 0)
@@ -373,56 +373,138 @@ namespace DarkDemo
                     writer.PageEvent = new PDFHeaderFooter();
 
                     pdfDoc.Open();
-                    BaseColor customColor = new BaseColor(16, 135, 52);
-                    Font fontTitle = FontFactory.GetFont(FontFactory.HELVETICA, 16, Font.BOLD, customColor);
 
+                    // Definir colores
+                    BaseColor headerColor = new BaseColor(255, 255, 255); 
+                    BaseColor titleColor = new BaseColor(0, 170, 0); // Azul claro para el título
+                    BaseColor dataColor = BaseColor.BLACK; // Negro para los datos
+                    BaseColor tableHeaderColor = new BaseColor(20, 182, 20); 
+                    BaseColor tableBackgroundColor = new BaseColor(230, 230, 230); // Gris claro para el fondo de la tabla
+
+                    // Definir fuentes
+                    Font fontTitle = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16, Font.BOLD, titleColor);
+                    Font fontHeader = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, Font.BOLD, BaseColor.WHITE);
+                    Font fontData = FontFactory.GetFont(FontFactory.HELVETICA, 12, Font.NORMAL, dataColor);
+
+                    // Calcular máximo, mínimo y promedio de oxígeno y temperatura
+                    double maxOxigeno = dataTable.AsEnumerable().Max(row => row.Field<double>("oxigeno"));
+                    double minOxigeno = dataTable.AsEnumerable().Min(row => row.Field<double>("oxigeno"));
+                    double avgOxigeno = dataTable.AsEnumerable().Average(row => row.Field<double>("oxigeno"));
+
+                    // Capturar las fechas correspondientes al máximo y mínimo de oxígeno
+                    DateTime maxFechaOxigeno = dataTable.AsEnumerable()
+                        .Where(row => row.Field<double>("oxigeno") == maxOxigeno)
+                        .Select(row => row.Field<DateTime>("fecha"))
+                        .FirstOrDefault();
+                    DateTime minFechaOxigeno = dataTable.AsEnumerable()
+                        .Where(row => row.Field<double>("oxigeno") == minOxigeno)
+                        .Select(row => row.Field<DateTime>("fecha"))
+                        .FirstOrDefault();
+
+                    double maxTemperatura = dataTable.AsEnumerable().Max(row => row.Field<double>("temperatura"));
+                    double minTemperatura = dataTable.AsEnumerable().Min(row => row.Field<double>("temperatura"));
+                    double avgTemperatura = dataTable.AsEnumerable().Average(row => row.Field<double>("temperatura"));
+
+                    // Capturar las fechas correspondientes al máximo y mínimo de temperatura
+                    DateTime maxFechaTemperatura = dataTable.AsEnumerable()
+                        .Where(row => row.Field<double>("temperatura") == maxTemperatura)
+                        .Select(row => row.Field<DateTime>("fecha"))
+                        .FirstOrDefault();
+                    DateTime minFechaTemperatura = dataTable.AsEnumerable()
+                        .Where(row => row.Field<double>("temperatura") == minTemperatura)
+                        .Select(row => row.Field<DateTime>("fecha"))
+                        .FirstOrDefault();
+
+                    // Formatear las fechas
+                    string fechaFormateadaMaxOxigeno = maxFechaOxigeno.ToString("yyyy/MM/dd HH:mm:ss");
+                    string fechaFormateadaMinOxigeno = minFechaOxigeno.ToString("yyyy/MM/dd HH:mm:ss");
+                    string fechaFormateadaMaxTemperatura = maxFechaTemperatura.ToString("yyyy/MM/dd HH:mm:ss");
+                    string fechaFormateadaMinTemperatura = minFechaTemperatura.ToString("yyyy/MM/dd HH:mm:ss");
+
+                    // Crear tabla para oxígeno y temperatura
+                    PdfPTable table = new PdfPTable(4); // Crear una tabla con 4 columnas
+
+                    // Definir anchos de columna
+                    float[] widths = new float[] { 2f, 2f, 2f, 2f };
+                    table.SetWidths(widths);
+
+                    // Agregar la celda del título
+                    PdfPCell cellTitle = new PdfPCell(new Phrase("Datos de Oxígeno y Temperatura", fontTitle));
+                    cellTitle.Colspan = 4; // Hacer que el título ocupe cuatro columnas
+                    cellTitle.HorizontalAlignment = Element.ALIGN_CENTER;
+                    cellTitle.BackgroundColor = headerColor;
+                    cellTitle.Border = Rectangle.NO_BORDER;
+                    table.AddCell(cellTitle);
+
+                    // Agregar la fecha en la primera fila
                     string fechaFormateada = DateTime.Parse(dataTable.Rows[0]["fecha"].ToString()).ToString("yyyy/MM/dd");
+                    PdfPCell cellFecha = new PdfPCell(new Phrase($"Fecha: {fechaFormateada}", fontData));
+                    cellFecha.Colspan = 4; // Hacer que la fecha ocupe cuatro columnas
+                    cellFecha.HorizontalAlignment = Element.ALIGN_CENTER;
+                    cellFecha.BackgroundColor = headerColor;
+                    cellFecha.Border = Rectangle.NO_BORDER;
+                    table.AddCell(cellFecha);
 
-                    // Agregar título
-                    Paragraph title = new Paragraph($"Reporte de Datos - {fechaFormateada}", fontTitle)
+                    // Agregar los títulos de las columnas
+                    string[] headers = { "Tipo", "Valor", "Fecha", "Promedio" };
+                    foreach (string header in headers)
                     {
-                        Alignment = Element.ALIGN_CENTER,
-                    };
-                    pdfDoc.Add(title);
-                    pdfDoc.Add(new Paragraph(" ")); // Agregar una línea vacía
+                        PdfPCell cellHeader = new PdfPCell(new Phrase(header, fontHeader));
+                        cellHeader.HorizontalAlignment = Element.ALIGN_CENTER;
+                        cellHeader.BackgroundColor = tableHeaderColor;
+                        table.AddCell(cellHeader);
+                    }
 
-                    // Agregar promedios de oxígeno y temperatura
-                    Font font = FontFactory.GetFont(FontFactory.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
-                    Paragraph paragraph1 = new Paragraph($"oxígeno: {dataTable.Rows[0]["oxigeno"]}", font);
-                    Paragraph paragraph2 = new Paragraph($"temperatura: {dataTable.Rows[0]["temperatura"]}", font);
-                    paragraph1.Alignment = Element.ALIGN_CENTER;
-                    paragraph2.Alignment = Element.ALIGN_CENTER;
+                    // Agregar los datos de oxígeno
+                    table.AddCell(new Phrase("Oxígeno Máx:", fontData));
+                    table.AddCell(new Phrase($"{maxOxigeno}", fontData));
+                    table.AddCell(new Phrase($"Fecha: {fechaFormateadaMaxOxigeno}", fontData));
+                    table.AddCell(new Phrase($"Prom: {avgOxigeno}", fontData));
+
+                    table.AddCell(new Phrase("Oxígeno Mín:", fontData));
+                    table.AddCell(new Phrase($"{minOxigeno}", fontData));
+                    table.AddCell(new Phrase($"Fecha: {fechaFormateadaMinOxigeno}", fontData));
+                    table.AddCell(new Phrase($"", fontData));
+
+                    // Agregar los datos de temperatura
+                    table.AddCell(new Phrase("Temperatura Máx:", fontData));
+                    table.AddCell(new Phrase($"{maxTemperatura}", fontData));
+                    table.AddCell(new Phrase($"Fecha: {fechaFormateadaMaxTemperatura}", fontData));
+                    table.AddCell(new Phrase($"Prom: {avgTemperatura}", fontData));
+
+                    table.AddCell(new Phrase("Temperatura Mín:", fontData));
+                    table.AddCell(new Phrase($"{minTemperatura}", fontData));
+                    table.AddCell(new Phrase($"Fecha: {fechaFormateadaMinTemperatura}", fontData));
+                    table.AddCell(new Phrase($"", fontData));
+
+                    // Agregar la tabla al documento
+                    pdfDoc.Add(table);
+
+
+
+                    // Crear gráficos
+                    string chartPath = Path.Combine(Path.GetTempPath(), "chart.png");
+                    CreateChart(dataTable, chartPath);
+
+                    Paragraph paragraph = new Paragraph();
+                    pdfDoc.Add(paragraph);
+                    Paragraph paragraph1 = new Paragraph();
                     pdfDoc.Add(paragraph1);
+                    Paragraph paragraph2 = new Paragraph("Grafica de datos");
+                    paragraph2.Alignment = Element.ALIGN_CENTER;
+                    paragraph2.IndentationLeft = 20f;
+                    paragraph2.IndentationRight = 30f;
+                    paragraph2.SpacingAfter = 10f;
+                    paragraph2.SpacingBefore = 20f;
                     pdfDoc.Add(paragraph2);
-
-                    pdfDoc.Add(new Paragraph(" ")); // Agregar una línea vacía
-
-                    // Crear tabla con los datos
-                    PdfPTable pdfTable = new PdfPTable(dataTable.Columns.Count);
-
-                    // Agregar encabezados
-                    foreach (DataColumn column in dataTable.Columns)
+                    // Agregar gráficos al documento PDF
+                    if (File.Exists(chartPath))
                     {
-                        PdfPCell cell = new PdfPCell(new Phrase(column.ColumnName))
-                        {
-                            BackgroundColor = new BaseColor(255, 165, 0), // Color naranja
-                            HorizontalAlignment = Element.ALIGN_CENTER,
-                            VerticalAlignment = Element.ALIGN_MIDDLE
-                        };
-                        pdfTable.AddCell(cell);
+                        Image chartImage = Image.GetInstance(chartPath);
+                        chartImage.ScaleToFit(500f, 300f); // Ajustar el tamaño de la imagen
+                        chartImage.Alignment = Element.ALIGN_CENTER;
+                        pdfDoc.Add(chartImage);
                     }
-
-                    // Agregar filas de datos
-                    foreach (DataRow row in dataTable.Rows)
-                    {
-                        foreach (var cell in row.ItemArray)
-                        {
-                            pdfTable.AddCell(cell.ToString());
-                        }
-                    }
-                    pdfDoc.Add(pdfTable);
-
-                    // Si necesitas agregar gráficos u otros elementos, aquí puedes hacerlo
 
                     pdfDoc.Close();
                 }
@@ -434,6 +516,74 @@ namespace DarkDemo
                 MessageBox.Show("No hay datos para generar el PDF.");
             }
         }
+
+
+        private void CreateChart(DataTable dataTable, string filePath)
+        {
+            var chart = new Chart();
+            chart.Width = 800;
+            chart.Height = 600;
+            var chartArea = new ChartArea();
+            chart.ChartAreas.Add(chartArea);
+
+            // Crear leyenda para mostrar el nombre de las series
+            var legend = new Legend();
+            chart.Legends.Add(legend);
+
+            // Crear series para oxígeno y temperatura
+            var seriesOxygen = new System.Windows.Forms.DataVisualization.Charting.Series
+            {
+                Name = "Oxígeno",
+                Color = Color.Green,
+                ChartType = SeriesChartType.Line
+            };
+            var seriesTemperature = new System.Windows.Forms.DataVisualization.Charting.Series
+            {
+                Name = "Temperatura",
+                Color = Color.Orange,
+                ChartType = SeriesChartType.Line
+            };
+            chart.Series.Add(seriesOxygen);
+            chart.Series.Add(seriesTemperature);
+
+            // Agregar los puntos a las series
+            foreach (DataRow row in dataTable.Rows)
+            {
+                DateTime fecha = DateTime.Parse(row["fecha"].ToString());
+                double oxigeno = Convert.ToDouble(row["oxigeno"]);
+                double temperatura = Convert.ToDouble(row["temperatura"]);
+
+                // Puedes usar el valor X como un índice si no deseas mostrar tiempos específicos
+                int index = seriesOxygen.Points.Count;
+                seriesOxygen.Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint
+                {
+                    XValue = index,
+                    YValues = new[] { oxigeno }
+                });
+                seriesTemperature.Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint
+                {
+                    XValue = index,
+                    YValues = new[] { temperatura }
+                });
+            }
+
+            // Configurar el gráfico para mostrar un solo texto en el eje X
+            chart.ChartAreas[0].AxisX.LabelStyle.Format = ""; // Deja vacío para no mostrar números
+            chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+            chart.ChartAreas[0].AxisX.MinorGrid.Enabled = false;
+            chart.ChartAreas[0].AxisX.Title = "Datos Capturados";
+
+            // Opcional: Configurar el gráfico para ocultar las líneas del eje X
+            chart.ChartAreas[0].AxisX.LineWidth = 0;
+            chart.ChartAreas[0].AxisX.MajorTickMark.Enabled = false;
+            chart.ChartAreas[0].AxisX.MinorTickMark.Enabled = false;
+
+            // Guardar el gráfico como imagen
+            chart.SaveImage(filePath, ChartImageFormat.Png);
+        }
+
+
+
 
         // Clase para el encabezado y pie de página personalizados
         public class PDFHeaderFooter : PdfPageEventHelper

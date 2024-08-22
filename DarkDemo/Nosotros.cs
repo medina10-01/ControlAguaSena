@@ -67,24 +67,52 @@ namespace DarkDemo
 
         }
 
+
+
         private void button10_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedItem != null && textBox1 != null && textBox2 != null)
             {
+                // Validar que textBox1 contiene solo números
+                if (!int.TryParse(textBox1.Text, out _))
+                {
+                    MessageBox.Show("textBox1 debe contener solo números.");
+                    return;
+                }
+
+                // Validar que textBox2 contiene solo texto
+                if (string.IsNullOrWhiteSpace(textBox2.Text) || !IsTextOnly(textBox2.Text))
+                {
+                    MessageBox.Show("textBox2 debe contener solo texto.");
+                    return;
+                }
+
                 ComboBoxItem selectedItem = (ComboBoxItem)comboBox1.SelectedItem;
                 MessageBox.Show(selectedItem.Id);
-                            ControlDatos controlDatos = new ControlDatos();
+
+                ControlDatos controlDatos = new ControlDatos();
                 controlDatos.ParametrosIniciales(dateTimePicker1, textBox1, textBox2, dateTimePicker2, selectedItem);
+                textBox1.Text = "";
+                textBox2.Text = "";
+                controlDatos.obtenerNombreDeLagos(comboBox1);
             }
-            else {
+            else
+            {
                 MessageBox.Show("Ninguno de los campos puede estar vacío");
                 return;
             }
         }
 
-        private void label7_Click(object sender, EventArgs e)
+        private bool IsTextOnly(string text)
         {
-
+            foreach (char c in text)
+            {
+                if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -110,8 +138,29 @@ namespace DarkDemo
 
         private void button13_Click(object sender, EventArgs e)
         {
+            // Validar que textBox14 contenga solo texto
+            if (string.IsNullOrWhiteSpace(textBox14.Text) || !IsTextOnly(textBox14.Text))
+            {
+                MessageBox.Show("textBox14 debe contener solo texto.");
+                return;
+            }
+
+            // Validar que los demás textBox contengan solo números
+            if (!IsNumeric(textBox9.Text) || !IsNumeric(textBox7.Text) || !IsNumeric(textBox8.Text) || !IsNumeric(textBox6.Text) || !IsNumeric(textBox10.Text))
+            {
+                MessageBox.Show("Los campos de texto deben contener solo números.");
+                return;
+            }
+
+            // Si todas las validaciones pasan, se llama al método RegistrarUnLago
             ControlDatos controlDatos1 = new ControlDatos();
-            controlDatos1.RegistrarUnLago(textBox14,textBox9,textBox7,textBox8, textBox6,textBox10);
+            controlDatos1.RegistrarUnLago(textBox14, textBox9, textBox7, textBox8, textBox6, textBox10);
+            textBox14.Text = "";
+            textBox9.Text = "";
+            textBox7.Text = "";
+            textBox8.Text = "";
+            textBox6.Text = "";
+            textBox10.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -119,6 +168,11 @@ namespace DarkDemo
             ControlDatos controlDatos = new ControlDatos();
             if (comboBox1.SelectedItem != null && textBox1 != null && textBox2 != null)
             {
+                if (!IsNumeric(textBox12.Text) || !IsNumeric(textBox13.Text) || !IsNumeric(textBox15.Text) )
+                {
+                    MessageBox.Show("Los campos de texto deben contener solo números.");
+                    return;
+                }
                 var selectedItem = (KeyValuePair<string, string>)comboBox2.SelectedItem;
                 string idSeleccionado = selectedItem.Value; // Aquí obtienes el id seleccionado
                 MessageBox.Show(idSeleccionado);
@@ -133,28 +187,108 @@ namespace DarkDemo
             {
                 MessageBox.Show("Ninguno de los campos puede estar vacío");
                 return;
-            }
-   
-           
-
+            }  
+        }
+        private bool IsNumeric(string text)
+        {
+            return int.TryParse(text, out _);
         }
 
         private void tabPage3_Click(object sender, EventArgs e)
         {
 
         }
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var mailAddress = new System.Net.Mail.MailAddress(email);
+                return mailAddress.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            if (textBox3 != null && textBox4 != null && textBox5!= null )
+            if (pictureBox2 != null && textBox3 != null && textBox4 != null && textBox5 != null)
             {
+                // Validar que textBox5 contenga solo texto
+                if (string.IsNullOrWhiteSpace(textBox5.Text) || !IsTextOnly(textBox5.Text))
+                {
+                    MessageBox.Show("Nombre debe contener solo texto.");
+                    return;
+                }
+
+                // Validar que textBox3 contenga solo números
+                if (!int.TryParse(textBox3.Text, out _))
+                {
+                    MessageBox.Show("Telefono debe contener solo números.");
+                    return;
+                }
+
+                // Validar que textBox4 contenga un correo electrónico válido
+                if (!IsValidEmail(textBox4.Text))
+                {
+                    MessageBox.Show("El correo electrónico no es válido.");
+                    return;
+                }
+
+                // Llamada al método RegistrarResponsable si todas las validaciones pasan
                 ControlDatos controlDatos1 = new ControlDatos();
                 controlDatos1.RegistrarResponsable(pictureBox2, textBox5, textBox4, textBox3);
+                textBox5.Text = "";
+                textBox4.Text = "";
+                textBox3.Text = "";
+                pictureBox2.Image= null;
             }
             else
             {
-                MessageBox.Show("Los campos: nombre, correo y telefono son necesarios.");
+                MessageBox.Show("Los campos: nombre, imagen, correo y telefono son necesarios.");
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox13_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox5.Text = "";
+            textBox4.Text = "";
+            textBox3.Text = "";
+            pictureBox2.Image = null;
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            textBox14.Text = "";
+            textBox9.Text = "";
+            textBox7.Text = "";
+            textBox8.Text = "";
+            textBox6.Text = "";
+            textBox10.Text = "";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            textBox12.Text = "";
+            textBox13.Text = "";
+            textBox15.Text = "";
         }
     }
 }
