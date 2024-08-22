@@ -143,5 +143,18 @@ namespace DarkDemo
         {
 
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (textBox3 != null && textBox4 != null && textBox5!= null )
+            {
+                ControlDatos controlDatos1 = new ControlDatos();
+                controlDatos1.RegistrarResponsable(pictureBox2, textBox5, textBox4, textBox3);
+            }
+            else
+            {
+                MessageBox.Show("Los campos: nombre, correo y telefono son necesarios.");
+            }
+        }
     }
 }

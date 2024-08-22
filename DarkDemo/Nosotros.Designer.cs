@@ -469,6 +469,7 @@
             this.button8.TabIndex = 61;
             this.button8.Text = "Guardar";
             this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // tabPage1
             // 

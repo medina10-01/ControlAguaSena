@@ -617,7 +617,10 @@ namespace DarkDemo
                 // Guardar la imagen y obtener la ruta
                 if (GuardarImagen(pictureBox, out rutaImagen))
                 {
-                    // Ahora la imagen está guardada, podemos realizar la consulta SQL
+                    // Extraer el nombre de la imagen de la ruta completa
+                    string nombreImagen = Path.GetFileName(rutaImagen);
+
+                    // Ahora que la imagen está guardada, podemos realizar la consulta SQL
                     string query = "INSERT INTO users (name, mail, cellPhone, UserImage) " +
                                    "VALUES (@name, @mail, @cellPhone, @UserImage);";
 
@@ -629,9 +632,8 @@ namespace DarkDemo
                             command.Parameters.AddWithValue("@mail", textBox1.Text);
                             command.Parameters.AddWithValue("@cellPhone", textBox2.Text);
 
-                            // Leer la imagen y convertirla en un array de bytes
-                            byte[] imagenBytes = File.ReadAllBytes(rutaImagen);
-                            command.Parameters.AddWithValue("@UserImage", imagenBytes);
+                            // Guardar solo el nombre de la imagen en la base de datos
+                            command.Parameters.AddWithValue("@UserImage", nombreImagen);
 
                             command.ExecuteNonQuery();
                         }
@@ -651,8 +653,8 @@ namespace DarkDemo
         {
             try
             {
-                string carpetaRaiz = AppDomain.CurrentDomain.BaseDirectory; // Ruta raíz del proyecto
-                string rutaDirectorio = Path.Combine(carpetaRaiz, "Sena", "Imagenes", "ImagenesDeUsuario");
+                // Especificar la ruta donde se guardará la imagen
+                string rutaDirectorio = @"C:\Users\brayan\Downloads\Sena\Imagenes\ImagenesDeUsuario";
 
                 // Crear el directorio si no existe
                 if (!Directory.Exists(rutaDirectorio))
@@ -676,6 +678,7 @@ namespace DarkDemo
                 return false;
             }
         }
+
 
         public void RegistrarUnLago(System.Windows.Forms.TextBox nombre, System.Windows.Forms.TextBox largo, System.Windows.Forms.TextBox ancho, System.Windows.Forms.TextBox area, System.Windows.Forms.TextBox profundidad, System.Windows.Forms.TextBox estimados)
         {
