@@ -23,6 +23,7 @@ namespace DarkDemo
             parentForm = form1;
             ControlDatos controlDatos = new ControlDatos();
             controlDatos.obtenerNombreDeLagos(comboBox1);
+            controlDatos.obtenerNombreDeCosecha(comboBox2);
         }
         private void Nosotros_Load(object sender, EventArgs e)
         {
@@ -110,6 +111,27 @@ namespace DarkDemo
         {
             ControlDatos controlDatos1 = new ControlDatos();
             controlDatos1.RegistrarUnLago(textBox14,textBox9,textBox7,textBox8, textBox6,textBox10);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem != null && textBox1 != null && textBox2 != null)
+            {
+                ComboBoxItem selectedItem = (ComboBoxItem)comboBox1.SelectedItem;
+                ControlDatos controlDatos = new ControlDatos();
+                controlDatos.FinalizarCosecha(selectedItem, textBox12, textBox13, textBox15);
+                
+            }
+            else
+            {
+                MessageBox.Show("Ninguno de los campos puede estar vacío");
+                return;
+            }
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

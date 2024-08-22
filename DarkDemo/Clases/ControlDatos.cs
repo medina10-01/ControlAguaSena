@@ -27,7 +27,6 @@ namespace DarkDemo
 {
     internal class ControlDatos
     {
-        DataGridView tablareportes2;
         public void RealizarRegistro(double oxigeno, double temperatura)
         {
             try
@@ -59,7 +58,7 @@ namespace DarkDemo
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
-        public void listarBrokers(System.Windows.Forms.ComboBox comboBox)
+        public void ListarBrokers(System.Windows.Forms.ComboBox comboBox)
         {
             try
             {
@@ -707,6 +706,123 @@ namespace DarkDemo
             }
         }
 
+       public void FinalizarCosecha(ComboBoxItem cosecha, System.Windows.Forms.TextBox produccion, System.Windows.Forms.TextBox valorVenta, System.Windows.Forms.TextBox totalProduccion)
+        {
+            MySqlConnection connection = null;
+            MySqlTransaction transaction = null;
+            
+            try
+            {
+                double produccionValue = double.Parse(produccion.Text);
+                double valorVentaValue = double.Parse(valorVenta.Text);
+                double totalProduccionValue = double.Parse(totalProduccion.Text);
+        
+                // Crear una nueva conexión
+                CConexion conexion = new CConexion();
+                connection = conexion.establecerConexion();
+                transaction = connection.BeginTransaction();
+        
+                // Intentar inactivar la cosecha
+                bool cosechaInactivada = InactivarCosecha(cosecha, connection, transaction);
+        
+                if (cosechaInactivada)
+                {
+                    // Preparar la consulta de inserción en fin_cosecha
+                    String query = "INSERT INTO fin_cosecha (cosecha_id, produccionKG, valor_venta, totalProduccion, fecha_fin) " +
+                        "VALUES (@cosecha_id, @produccionKG, @valor_venta, @totalProduccion, @fecha_fin);";
+        
+                    MySqlCommand mySqlCommand = new MySqlCommand(query, connection, transaction);
+        
+                    mySqlCommand.Parameters.AddWithValue("@cosecha_id", cosecha.Id);
+                    mySqlCommand.Parameters.AddWithValue("@produccionKG", produccionValue);
+                    mySqlCommand.Parameters.AddWithValue("@valor_venta", valorVentaValue);
+                    mySqlCommand.Parameters.AddWithValue("@totalProduccion", totalProduccionValue);
+                    mySqlCommand.Parameters.AddWithValue("@fecha_fin", DateTime.Now);
+        
+                    // Ejecutar la inserción
+                    mySqlCommand.ExecuteNonQuery();
+        
+                    // Confirmar la transacción
+                    transaction.Commit();
+        
+                    MessageBox.Show("La cosecha se ha finalizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    // Revertir la transacción si no se pudo inactivar la cosecha
+                    transaction.Rollback();
+                    MessageBox.Show("No se pudo inactivar la cosecha.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                conexion.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                // Revertir la transacción en caso de error
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
+                MessageBox.Show("Error en finalizar: " + ex.Message);
+            }
+           
+        }
+        
+        public bool InactivarCosecha(ComboBoxItem comboBoxItem, MySqlConnection connection, MySqlTransaction transaction)
+        {
+            try
+            {
+                String query = "UPDATE cosecha SET estado = 'Cosechado' WHERE id = @id;";
+                MySqlCommand mySqlCommand = new MySqlCommand(query, connection, transaction);
+        
+                mySqlCommand.Parameters.AddWithValue("@id", comboBoxItem.Id);
+        
+                int rowsAffected = mySqlCommand.ExecuteNonQuery();
+        
+                // Retornar true si se actualizó al menos una fila
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al inactivar la cosecha: " + ex.Message);
+                return false;
+            }
+        }
 
+
+        public void obtenerNombreDeCosecha(System.Windows.Forms.ComboBox comboBox)
+        {
+            try
+            {
+                CConexion conexion = new CConexion();
+                String query = "SELECT id, fecha_inicio FROM cosecha WHERE  estado = 'Activo'";
+
+                // Ejecutamos la consulta
+                MySqlCommand command = new MySqlCommand(query, conexion.establecerConexion());
+                MySqlDataReader reader = command.ExecuteReader();
+
+                // Limpiamos los elementos existentes en el ComboBox
+                comboBox.Items.Clear();
+
+                // Llenamos el ComboBox con los resultados de la consulta
+                while (reader.Read())
+                {
+                    DateTime fechaInicio = Convert.ToDateTime(reader["fecha_inicio"]);
+                    string fechaFormateada = fechaInicio.ToString("yyyy-MM-dd"); // Formato solo la fecha (puedes ajustar el formato según lo necesites)
+                    comboBox.Items.Add(new ComboBoxItem(fechaFormateada, reader["id"].ToString()));
+                }
+                if (comboBox.Items.Count > 0)
+                {
+                    comboBox.SelectedIndex = 0; // Selecciona el primer elemento del ComboBox
+                }
+
+                // Cerramos la conexión y el lector
+                reader.Close();
+                conexion.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en la consulta: " + ex.Message);
+            }
+        }
     }
 }

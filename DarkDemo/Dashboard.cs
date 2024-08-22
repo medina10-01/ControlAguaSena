@@ -31,7 +31,7 @@ namespace DarkDemo
             InitializeComponent();
             
             ControlDatos controlDatos = new ControlDatos();
-            controlDatos.listarBrokers(comboBox1);
+            controlDatos.ListarBrokers(comboBox1);
             timer2.Interval = 10000; //cada hora se ejecuta una ves el timer 3600000
 
             ChartsControl chartsControl = new ChartsControl();  
