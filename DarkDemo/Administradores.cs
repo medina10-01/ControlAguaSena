@@ -54,5 +54,15 @@ namespace DarkDemo
             ControlDatos controlDatos = new ControlDatos();
             controlDatos.RegistrarResponsable(pictureBox1, textBox9, textBox11, textBox10);
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button16_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

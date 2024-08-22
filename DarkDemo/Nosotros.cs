@@ -108,5 +108,37 @@ namespace DarkDemo
                 return;
             }
         }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button9_Click_1(object sender, EventArgs e)
+        {
+            UserClass userClass = new UserClass();
+            userClass.CargarUnaImgen(pictureBox2);
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            ControlDatos controlDatos1 = new ControlDatos();
+            controlDatos1.RegistrarUnLago(textBox14,textBox9,textBox7,textBox8, textBox6,textBox10);
+        }
     }
 }

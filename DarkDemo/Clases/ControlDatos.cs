@@ -39,7 +39,7 @@ namespace DarkDemo
 
                 //  MessageBox.Show(oxigeno.ToString());
                 DateTime dateTime = DateTime.Now;
-                string fechaFormateada = dateTime.ToString("yyyy-MM-dd"); 
+                string fechaFormateada = dateTime.ToString("yyyy-MM-dd");
 
                 CConexion cConexion = new CConexion();
                 String query = "INSERT INTO lecturas (oxigeno, temperatura, fecha)" +
@@ -103,8 +103,6 @@ namespace DarkDemo
             }
         }
 
-
-
         public void DatosNuevaConexion(System.Windows.Forms.ComboBox id, out string host, out string puerto, out string topico_ox, out string topico_tem)
         {
             host = null;
@@ -153,21 +151,21 @@ namespace DarkDemo
             {
                 CConexion objetoConeccion = new CConexion();
                 String query = "SELECT    fecha,   ROUND(AVG(oxigeno), 2) AS promedio_oxigeno,    ROUND(AVG(temperatura), 2) AS promedio_temperatura FROM    lecturas GROUP BY     fecha ORDER BY     fecha DESC";
-        
+
                 tablaReportes.DataSource = null;
                 MySqlDataAdapter adapter = new MySqlDataAdapter(query, objetoConeccion.establecerConexion());
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
-        
+
                 tablaReportes.DataSource = dataTable;
-        
+
                 // Establecer el estilo del encabezado
                 tablaReportes.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(231, 154, 37); // RGB para naranja
                 tablaReportes.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; // Texto blanco para los encabezados
                 tablaReportes.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Arial", 10, FontStyle.Bold); // Fuente de los encabezados
                 tablaReportes.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter; // Centrar el texto
                 tablaReportes.EnableHeadersVisualStyles = false; // Deshabilitar los estilos visuales predeterminados de los encabezados
-        
+
                 // Agregar columna de botones
                 if (tablaReportes.Columns["Eliminar"] == null)
                 {
@@ -180,10 +178,10 @@ namespace DarkDemo
                         DefaultCellStyle = new DataGridViewCellStyle
                         {
                             BackColor = Color.White,
-        
+
                         }
                     };
-        
+
                     DataGridViewButtonColumn btnColumnPDF = new DataGridViewButtonColumn
                     {
                         Name = "PDF",
@@ -196,17 +194,17 @@ namespace DarkDemo
                             ForeColor = Color.White
                         }
                     };
-        
+
                     tablaReportes.Columns.Add(btnColumnEliminar);
                     tablaReportes.Columns.Add(btnColumnPDF);
                 }
-        
+
                 // Configurar las columnas para que llenen el espacio disponible
                 tablaReportes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        
+
                 // Configurar el evento CellContentClick para manejar clics en los botones
                 tablaReportes.CellContentClick += TablaReportes_CellContentClick;
-        
+
                 objetoConeccion.cerrarConexion();
             }
             catch (Exception ex)
@@ -266,11 +264,11 @@ namespace DarkDemo
                     // Formatear la fecha en el formato "yyyy/MM/dd"
                     var formattedDate = fecha.ToString("yyyy/MM/dd");
 
-                     if (dgv.Columns[e.ColumnIndex].Name == "PDFToMail")
-                     {
+                    if (dgv.Columns[e.ColumnIndex].Name == "PDFToMail")
+                    {
                         DataTable dataTable = SeleccionarProceso(formattedDate);
                         if (dataTable != null)
-                        
+
                         {
                             string fechaFormateada = fecha.ToString("yyyy-MM-dd");
                             string pdfPath = Path.Combine(
@@ -280,7 +278,7 @@ namespace DarkDemo
                             GenerarPDF(dataTable, pdfPath);
                             sendMail sendMail = new sendMail();
                             string destino = "mstiven748@gmail.com";
-                            string asunto = "Reporte de lagos en la fecha: "+fechaFormateada;
+                            string asunto = "Reporte de lagos en la fecha: " + fechaFormateada;
                             // Este ejemplo asume que ya tienes un control WebBrowser en tu formulario
 
                             byte[] bites = File.ReadAllBytes(pdfPath);
@@ -290,10 +288,10 @@ namespace DarkDemo
                             sendMail.mailSender(destino, asunto, cuerpo, bites, fechaFormateada);
                         }
                         // EliminarProceso(procesoValue);
-                       // MessageBox.Show($"Eliminar clicked for proceso: {formattedDate}");
-                     }
-                     else if (dgv.Columns[e.ColumnIndex].Name == "PDF")
-                     {
+                        // MessageBox.Show($"Eliminar clicked for proceso: {formattedDate}");
+                    }
+                    else if (dgv.Columns[e.ColumnIndex].Name == "PDF")
+                    {
                         DataTable dataTable = SeleccionarProceso(formattedDate);
 
                         if (dataTable != null)
@@ -533,7 +531,7 @@ namespace DarkDemo
                 CConexion conexion = new CConexion();
                 String query = "SELECT id, name FROM lagos";
 
-             
+
 
                 // Ejecutamos la consulta
                 MySqlCommand command = new MySqlCommand(query, conexion.establecerConexion());
@@ -679,6 +677,36 @@ namespace DarkDemo
                 return false;
             }
         }
+
+        public void RegistrarUnLago(System.Windows.Forms.TextBox nombre, System.Windows.Forms.TextBox largo, System.Windows.Forms.TextBox ancho, System.Windows.Forms.TextBox area, System.Windows.Forms.TextBox profundidad, System.Windows.Forms.TextBox estimados)
+        {
+            try
+            {
+                CConexion cConexion = new CConexion();
+                string query = "INSERT INTO lagos (name, largo, ancho, area, profundidad, PesEstimados)" +
+                               " VALUES (@name, @largo, @ancho, @area, @profundidad, @PesEstimados);";
+                MySqlCommand mySqlCommand = new MySqlCommand(query, cConexion.establecerConexion());
+
+                // Asignar valores a los parámetros
+                mySqlCommand.Parameters.AddWithValue("@name", nombre.Text);
+                mySqlCommand.Parameters.AddWithValue("@largo", largo.Text);
+                mySqlCommand.Parameters.AddWithValue("@ancho", ancho.Text);
+                mySqlCommand.Parameters.AddWithValue("@area", area.Text);
+                mySqlCommand.Parameters.AddWithValue("@profundidad", profundidad.Text);
+                mySqlCommand.Parameters.AddWithValue("@PesEstimados", estimados.Text);
+
+                // Ejecutar el comando
+                mySqlCommand.ExecuteNonQuery();
+
+                // Cerrar la conexión
+                cConexion.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en el registro: " + ex.Message);
+            }
+        }
+
 
     }
 }
