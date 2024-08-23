@@ -1,7 +1,16 @@
 ﻿using DarkDemo.Clases;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Xml.Linq;
 
 namespace DarkDemo
 {
@@ -35,7 +44,7 @@ namespace DarkDemo
             nosotros = new Nosotros(this) { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
             contactos = new Contactos() { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
             conexion = new Conexion() { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
-            mailSender = new MailSender() { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
+            mailSender = new MailSender() { MdiParent = this, FormBorderStyle= FormBorderStyle.None, TopLevel= false, Dock = DockStyle.Fill };
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -53,14 +62,13 @@ namespace DarkDemo
                 lastLocation = e.Location;
             }
         }
-
         // Evento para mover el formulario mientras se arrastra
         private void inicio_MouseMove(object sender, MouseEventArgs e)
         {
             if (mouseDown)
             {
-                Point delta = Point.Subtract(Cursor.Position, (Size)lastLocation);
-                this.Location = Point.Add(this.Location, (Size)delta);
+                Point delta = Point.Subtract(Cursor.Position, new Size(lastLocation));
+                this.Location = Point.Add(this.Location, new Size(delta));
             }
         }
 
@@ -71,6 +79,13 @@ namespace DarkDemo
                 mouseDown = false;
             }
         }
+       
+
+        private void pictureBox1_Click_2(object sender, EventArgs e)
+        {
+            
+        }
+
 
         private void MostrarFormulario(Form formulario)
         {
@@ -109,7 +124,7 @@ namespace DarkDemo
         {
             MostrarFormulario(conexion);
         }
-
+        
         private void button1_Click_1(object sender, EventArgs e)
         {
             MostrarFormulario(mailSender);
@@ -122,37 +137,45 @@ namespace DarkDemo
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            // Código de pintado si es necesario
+
         }
 
-        private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
+         private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
         {
+            
             button9_Click(sender, e);
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+            this.MouseDown += inicio_MouseDown;
+            this.MouseMove += inicio_MouseMove;
+            this.MouseUp += inicio_MouseUp;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-            // Código de pintado si es necesario
+
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-            // Código para label3 si es necesario
+
         }
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            // Código para pictureBox4 si es necesario
+
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-            // Código para label2 si es necesario
+
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            // Código para label1 si es necesario
+
         }
     }
 }
