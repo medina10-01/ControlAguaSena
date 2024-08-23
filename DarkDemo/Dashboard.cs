@@ -199,6 +199,27 @@ namespace DarkDemo
         {
 
         }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            ControlDatos controlDatos = new ControlDatos();
+            controlDatos.ListarBrokers(comboBox1);
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class SensorData

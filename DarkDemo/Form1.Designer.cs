@@ -113,7 +113,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 21);
             this.label5.TabIndex = 0;
-            this.label5.Text = "Conexion";
+            this.label5.Text = "Conexión";
             // 
             // label4
             // 
@@ -160,6 +160,7 @@
             this.label1.Size = new System.Drawing.Size(86, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Dashboard";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button10
             // 

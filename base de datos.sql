@@ -63,35 +63,10 @@ CREATE TABLE fin_cosecha (
     FOREIGN KEY (cosecha_id) REFERENCES cosecha(id)
 );
 
-
--- Insertar datos en la tabla lecturas
-INSERT INTO lecturas (oxigeno, temperatura) VALUES 
-(8.5, 22.3),
-(7.8, 23.1),
-(9.0, 21.7),
-(8.3, 22.8),
-(7.9, 23.0);
-
--- Insertar datos en la tabla users
-INSERT INTO users (name, mail, cellPhone, UserImage) VALUES 
-('Juan Perez', 'juan.perez@example.com', '1234567890', 'juan.png'),
-('Maria Lopez', 'maria.lopez@example.com', '0987654321', 'maria.png'),
-('Carlos Diaz', 'carlos.diaz@example.com', '1122334455', 'carlos.png'),
-('Ana Gomez', 'ana.gomez@example.com', '5566778899', 'ana.png'),
-('Luis Martinez', 'luis.martinez@example.com', '6677889900', 'luis.png');
-
--- Insertar datos en la tabla lagos
-INSERT INTO lagos (name, largo, ancho, area, profundidad, PesEstimados) VALUES 
-('Lago1', '100', '50', '5000', '10', '1000'),
-('Lago2', '120', '60', '7200', '12', '1200'),
-('Lago3', '90', '45', '4050', '8', '800'),
-('Lago4', '110', '55', '6050', '9', '900'),
-('Lago5', '95', '47', '4465', '7', '700');
-
--- Insertar datos en la tabla cosecha
-INSERT INTO cosecha (fecha_inicio, densidad_ciembra, especie, fecha_fin_estimada, lago_id, estado) VALUES 
-('2024-01-01', '50 por metro cuadrado', 'Tilapia', '2024-06-01', 1, 'Activo'),
-('2024-02-15', '60 por metro cuadrado', 'Carpa', '2024-07-15', 2, 'Activo'),
-('2024-03-10', '55 por metro cuadrado', 'Trucha', '2024-08-10', 3, 'Activo'),
-('2024-04-05', '70 por metro cuadrado', 'Bagre', '2024-09-05', 4, 'Activo'),
-('2024-05-20', '65 por metro cuadrado', 'Pargo', '2024-10-20', 5, 'Activo');
+-- Crear la tabla alerta con relación a lecturas
+CREATE TABLE alerta (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(30),
+    lectura_id INT,
+    FOREIGN KEY (lectura_id) REFERENCES lecturas(id)
+);

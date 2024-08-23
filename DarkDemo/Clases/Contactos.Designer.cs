@@ -59,7 +59,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(500, 72);
             this.label1.TabIndex = 13;
-            this.label1.Text = "Contactenos";
+            this.label1.Text = "Contáctenos";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel1
@@ -107,8 +107,8 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.7305F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.34752F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.7305F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.7305F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.7305F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.04545F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.31818F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(500, 176);
             this.tableLayoutPanel2.TabIndex = 35;
             // 
@@ -120,7 +120,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.tableLayoutPanel2.SetRowSpan(this.pictureBox1, 2);
-            this.pictureBox1.Size = new System.Drawing.Size(244, 56);
+            this.pictureBox1.Size = new System.Drawing.Size(244, 54);
             this.pictureBox1.TabIndex = 26;
             this.pictureBox1.TabStop = false;
             // 
@@ -132,7 +132,7 @@
             this.pictureBox5.Location = new System.Drawing.Point(253, 3);
             this.pictureBox5.Name = "pictureBox5";
             this.tableLayoutPanel2.SetRowSpan(this.pictureBox5, 2);
-            this.pictureBox5.Size = new System.Drawing.Size(244, 56);
+            this.pictureBox5.Size = new System.Drawing.Size(244, 54);
             this.pictureBox5.TabIndex = 31;
             this.pictureBox5.TabStop = false;
             // 
@@ -146,7 +146,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(244, 25);
             this.label10.TabIndex = 33;
-            this.label10.Text = "Gmail ";
+            this.label10.Text = "email";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label7
@@ -155,7 +155,7 @@
             this.label7.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(154)))), ((int)(((byte)(37)))));
-            this.label7.Location = new System.Drawing.Point(253, 118);
+            this.label7.Location = new System.Drawing.Point(253, 113);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(244, 25);
             this.label7.TabIndex = 19;
@@ -168,7 +168,7 @@
             this.label5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(135)))), ((int)(((byte)(52)))));
-            this.label5.Location = new System.Drawing.Point(253, 87);
+            this.label5.Location = new System.Drawing.Point(253, 84);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(244, 25);
             this.label5.TabIndex = 24;
@@ -194,7 +194,7 @@
             this.label6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(154)))), ((int)(((byte)(37)))));
-            this.label6.Location = new System.Drawing.Point(3, 118);
+            this.label6.Location = new System.Drawing.Point(3, 113);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(244, 25);
             this.label6.TabIndex = 18;
@@ -207,7 +207,7 @@
             this.label4.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(135)))), ((int)(((byte)(52)))));
-            this.label4.Location = new System.Drawing.Point(3, 87);
+            this.label4.Location = new System.Drawing.Point(3, 84);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(244, 25);
             this.label4.TabIndex = 23;
@@ -224,7 +224,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(500, 54);
             this.label2.TabIndex = 29;
-            this.label2.Text = "Puedes contactarnos desde diferentes medios:";
+            this.label2.Text = "Contactarnos desde diferentes medios:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Contactos

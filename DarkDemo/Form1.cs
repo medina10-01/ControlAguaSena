@@ -1,16 +1,7 @@
 ﻿using DarkDemo.Clases;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Xml.Linq;
 
 namespace DarkDemo
 {
@@ -18,11 +9,6 @@ namespace DarkDemo
     {
         private bool mouseDown;
         private Point lastLocation;
-
-
-        // llamados a los formmularios:
-
-
 
         //formularios hijos
         private Dashboard dashboard;
@@ -49,41 +35,42 @@ namespace DarkDemo
             nosotros = new Nosotros(this) { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
             contactos = new Contactos() { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
             conexion = new Conexion() { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
-            mailSender = new MailSender() { MdiParent = this, FormBorderStyle= FormBorderStyle.None, TopLevel= false, Dock = DockStyle.Fill };
+            mailSender = new MailSender() { MdiParent = this, FormBorderStyle = FormBorderStyle.None, TopLevel = false, Dock = DockStyle.Fill };
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            panel3.MouseDown += inicio_MouseDown;
+            panel3.MouseMove += inicio_MouseMove;
+            panel3.MouseUp += inicio_MouseUp;
         }
 
         private void inicio_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseDown = true;
-            lastLocation = e.Location;
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseDown = true;
+                lastLocation = e.Location;
+            }
         }
+
         // Evento para mover el formulario mientras se arrastra
         private void inicio_MouseMove(object sender, MouseEventArgs e)
         {
             if (mouseDown)
             {
-                this.Location = new Point(
-                    (this.Location.X - lastLocation.X) + e.X,
-                    (this.Location.Y - lastLocation.Y) + e.Y);
-
-                this.Update();
+                Point delta = Point.Subtract(Cursor.Position, (Size)lastLocation);
+                this.Location = Point.Add(this.Location, (Size)delta);
             }
         }
-        // Evento para finalizar el arrastre
+
         private void inicio_MouseUp(object sender, MouseEventArgs e)
         {
-            mouseDown = false;
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseDown = false;
+            }
         }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click_2(object sender, EventArgs e)
-        {
-            
-        }
-
 
         private void MostrarFormulario(Form formulario)
         {
@@ -122,7 +109,7 @@ namespace DarkDemo
         {
             MostrarFormulario(conexion);
         }
-        
+
         private void button1_Click_1(object sender, EventArgs e)
         {
             MostrarFormulario(mailSender);
@@ -135,67 +122,37 @@ namespace DarkDemo
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-
+            // Código de pintado si es necesario
         }
 
-         private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
+        private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
         {
-            
             button9_Click(sender, e);
-        }
-
-        public void InhabilitarBotones(bool enabled)
-        {
-            // Método recursivo para deshabilitar todos los botones en todos los contenedores
-            void DisableButtons(Control parent)
-            {
-                foreach (Control control in parent.Controls)
-                {
-                    if (control is Button)
-                    {
-                        control.Enabled = enabled;
-                    }
-                    else if (control.HasChildren)
-                    {
-                        DisableButtons(control);
-                    }
-                }
-            }
-
-            // Llamar al método recursivo para deshabilitar botones en el formulario principal
-            DisableButtons(this);
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-            this.MouseDown += inicio_MouseDown;
-            this.MouseMove += inicio_MouseMove;
-            this.MouseUp += inicio_MouseUp;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-
-        }
-
-        private void circularProgressBar1_Click(object sender, EventArgs e)
-        {
-
+            // Código de pintado si es necesario
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-
+            // Código para label3 si es necesario
         }
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-
+            // Código para pictureBox4 si es necesario
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
+            // Código para label2 si es necesario
+        }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
+            // Código para label1 si es necesario
         }
     }
 }
