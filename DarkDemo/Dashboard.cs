@@ -77,24 +77,25 @@ namespace DarkDemo
                 chart.updateDataInformation(circularProgressBar1, sensorData.oxigeno_disuelto);
                 label2.Text = "Oxigeno: " + sensorData.oxigeno_disuelto.ToString("F2") + "%";
                 sendMail sendMail = new sendMail();
-               //  if (sensorData.oxigeno_disuelto < 70)
-               //  {    
-               //      string data = sensorData.oxigeno_disuelto.ToString();
-               //      string topico = "Oxigeno";
-               //      sendMail.EnviarVariosMail(data, topico);
-               //  }
+
+                 if (sensorData.oxigeno_disuelto < 70)
+                 {    
+                     string data = sensorData.oxigeno_disuelto.ToString();
+                     string topico = "Oxigeno";
+                     sendMail.EnviarVariosMail(data, topico);
+                 }
 
                 // Actualiza el segundo gráfico con temperatura
                 chart.UpdateCharts(chart2, sensorData.temperatura);
                 chart.updateDataInformation(circularProgressBar2, sensorData.temperatura);
                 label10.Text = $"Temperatura: {sensorData.temperatura:F2}°C";
 
-              // if (sensorData.temperatura < 21)
-              // {
-              //    string data = sensorData.temperatura.ToString();
-              //       string topico = "temperatura";
-              //       sendMail.EnviarVariosMail(data, topico);
-              // }
+               if (sensorData.temperatura < 21)
+               {
+                  string data = sensorData.temperatura.ToString();
+                     string topico = "temperatura";
+                     sendMail.EnviarVariosMail(data, topico);
+               }
                 //Oxigeno y temperatura como valores globales
 
                 oxigeno = sensorData.oxigeno_disuelto;

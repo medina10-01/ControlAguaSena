@@ -583,8 +583,6 @@ namespace DarkDemo
         }
 
 
-
-
         // Clase para el encabezado y pie de página personalizados
         public class PDFHeaderFooter : PdfPageEventHelper
         {
@@ -967,6 +965,17 @@ namespace DarkDemo
             catch (Exception ex)
             {
                 MessageBox.Show("Error en la consulta: " + ex.Message);
+            }
+        }
+
+        public void RegistrarUnaAlerta()
+        {
+            try
+            {
+
+            }catch (Exception ex)
+            {
+                MessageBox.Show("");
             }
         }
 
