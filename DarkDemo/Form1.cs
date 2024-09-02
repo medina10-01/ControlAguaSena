@@ -16,8 +16,9 @@ namespace DarkDemo
 {
     public partial class Form1 : Form
     {
-        private bool mouseDown;
+        private bool mouseDown = false;
         private Point lastLocation;
+
 
         //formularios hijos
         private Dashboard dashboard;
@@ -54,6 +55,7 @@ namespace DarkDemo
             panel3.MouseUp += inicio_MouseUp;
         }
 
+
         private void inicio_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -62,15 +64,21 @@ namespace DarkDemo
                 lastLocation = e.Location;
             }
         }
+
         // Evento para mover el formulario mientras se arrastra
         private void inicio_MouseMove(object sender, MouseEventArgs e)
         {
             if (mouseDown)
             {
-                Point delta = Point.Subtract(Cursor.Position, new Size(lastLocation));
-                this.Location = Point.Add(this.Location, new Size(delta));
+                // Calcula el desplazamiento del mouse
+                Point delta = new Point(e.X - lastLocation.X, e.Y - lastLocation.Y);
+                this.Location = new Point(this.Location.X + delta.X, this.Location.Y + delta.Y);
+                lastLocation = e.Location; // Actualiza la última posición del mouse
             }
         }
+
+
+
 
         private void inicio_MouseUp(object sender, MouseEventArgs e)
         {
@@ -79,7 +87,8 @@ namespace DarkDemo
                 mouseDown = false;
             }
         }
-       
+
+
 
         private void pictureBox1_Click_2(object sender, EventArgs e)
         {
@@ -148,9 +157,7 @@ namespace DarkDemo
 
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
-            this.MouseDown += inicio_MouseDown;
-            this.MouseMove += inicio_MouseMove;
-            this.MouseUp += inicio_MouseUp;
+    
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
